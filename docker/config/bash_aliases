@@ -1,0 +1,18 @@
+# Global
+alias ll='ls -alh --color'
+alias php-cs-fixer='./vendor/bin/php-cs-fixer fix -v'
+
+# Symfony
+alias sf='php bin/console'
+alias sfmi='sf do:mi:mi'
+alias sfdoex='sf do:mi:ex'
+alias sfdiff='sf do:mi:diff'
+
+alias sfdropdb='sf do:da:drop --if-exists --force'
+alias sfcreatedb='sf do:da:cr --if-not-exists --no-interaction'
+
+alias sfresetdb='sfdropdb && sfcreatedb && sfmi --quiet --no-interaction'
+alias sffixtures='sf h:d:f:l --quiet --no-interaction'
+alias sfcc='rm -rf var/cache/* var/logs/* var/sessions/*'
+alias sfall='sfresetdb && sffixtures --env test && sfcc'
+alias sfalldev='sfresetdb && sffixtures && sfcc'
