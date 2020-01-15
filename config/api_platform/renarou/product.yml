@@ -1,0 +1,18 @@
+App\Entity\Product:
+  attributes:
+    route_prefix: "/renarou"
+    formats:
+      json: ['application/merge-patch+json']
+  collectionOperations:
+    get_products:
+      method: 'GET'
+      path: '/products'
+      controller: 'App\Controller\Getters\GetProducts'
+    post:
+      security: 'is_granted("ROLE_ADMIN")'
+  itemOperations:
+    get: ~
+    patch:
+      security: 'is_granted("ROLE_ADMIN")'
+    delete:
+      security: 'is_granted("ROLE_ADMIN")'

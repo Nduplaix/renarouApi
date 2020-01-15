@@ -1,0 +1,16 @@
+App\Entity\Address:
+  attributes:
+    route_prefix: "/renarou"
+    security: 'is_granted("ROLE_USER")'
+    formats:
+      json: ['application/merge-patch+json']
+  collectionOperations:
+    get: ~
+    post: ~
+  itemOperations:
+    get:
+      security: 'is_granted("ROLE_USER") and object.user.getId() == user.getId()'
+    patch:
+      security: 'is_granted("ROLE_USER") and object.user.getId() == user.getId()'
+    delete:
+      security: 'is_granted("ROLE_ADMIN")'
