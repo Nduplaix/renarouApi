@@ -1,10 +1,11 @@
-App\Entity\Image:
+App\Entity\Category:
   attributes:
-    route_prefix: "/renarou"
-    formats:
-      json: ['application/merge-patch+json']
+    normalization_context:
+      groups: ['categories']
   collectionOperations:
-    get: ~
+    get:
+      formats:
+        0: 'json'
     post:
       security: 'is_granted("ROLE_ADMIN")'
   itemOperations:

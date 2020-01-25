@@ -1,0 +1,11 @@
+App\Entity\Image:
+  collectionOperations:
+    get: ~
+    post:
+      security: 'is_granted("ROLE_ADMIN")'
+  itemOperations:
+    get: ~
+    patch:
+      security: 'is_granted("ROLE_ADMIN")'
+    delete:
+      security: 'is_granted("ROLE_ADMIN")'

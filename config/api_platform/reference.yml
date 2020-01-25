@@ -1,10 +1,4 @@
-App\Entity\Category:
-  attributes:
-    route_prefix: "/renarou"
-    formats:
-      json: ['application/merge-patch+json']
-    normalization_context:
-      groups: ['categories']
+App\Entity\Reference:
   collectionOperations:
     get: ~
     post:

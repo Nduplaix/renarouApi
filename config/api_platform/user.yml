@@ -1,7 +1,4 @@
 App\Entity\User:
-  attributes:
-    formats:
-      json: ['application/merge-patch+json']
   collectionOperations:
     get:
       security: 'is_granted("ROLE_ADMIN")'
