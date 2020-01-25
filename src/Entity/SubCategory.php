@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Cocur\Slugify\Slugify;
 use Doctrine\Common\Collections\ArrayCollection;

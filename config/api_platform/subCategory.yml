@@ -1,8 +1,4 @@
 App\Entity\SubCategory:
-  attributes:
-    route_prefix: "/renarou"
-    formats:
-      json: ['application/merge-patch+json']
   collectionOperations:
     get: ~
     post:

@@ -1,9 +1,6 @@
 App\Entity\Address:
   attributes:
-    route_prefix: "/renarou"
     security: 'is_granted("ROLE_USER")'
-    formats:
-      json: ['application/merge-patch+json']
   collectionOperations:
     get: ~
     post: ~
