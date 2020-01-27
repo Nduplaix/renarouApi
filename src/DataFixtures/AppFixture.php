@@ -69,7 +69,7 @@ class AppFixture extends Fixture
 
         // #################### Categorie Garçons #################################
         $category = new Category();
-        $category->setLabel('Graçons');
+        $category->setLabel('Garçons');
         $manager->persist($category);
 
         // ##################### SubCatégoires ##################################
@@ -136,7 +136,7 @@ class AppFixture extends Fixture
 
         // #################### Categorie Bébé Garçons #################################
         $category = new Category();
-        $category->setLabel('Bébé Graçons');
+        $category->setLabel('Bébé Garçons');
         $manager->persist($category);
 
         // ##################### SubCatégoires ##################################
