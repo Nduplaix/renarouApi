@@ -9,6 +9,7 @@ use App\Entity\Product;
 use App\Entity\SubCategory;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class GetProducts
 {
@@ -21,7 +22,7 @@ class GetProducts
 
     /**
      * @param Request $request
-     * @return Product[]
+     * @return Product[]|Response
      */
     public function __invoke(Request $request)
     {
@@ -29,19 +30,29 @@ class GetProducts
 
         $repo = $this->manager->getRepository(Product::class);
 
-        $subCategoryId = $request->query->get('subcategory');
-        $categoryId = $request->query->get('category');
+        $subCategorySlug = $request->query->get('subcategory');
+        $categorySlug = $request->query->get('category');
 
-        if ($subCategoryId)
+        if ($subCategorySlug)
         {
-            $subCategory = $this->manager->getRepository(SubCategory::class)->find($subCategoryId);
-            $data = $repo->findProductsBySubCategory($subCategory, $page);
-        } elseif ($categoryId) {
-            $category = $this->manager->getRepository(Category::class)->find($categoryId);
-            $data = $repo->findProductsByCategory($category, $page);
+            $subCategory = $this->manager->getRepository(SubCategory::class)->findOneBy([
+                'slug' => $subCategorySlug
+            ]);
+
+            if ($subCategory) {
+                $data = $repo->findProductsBySubCategory($subCategory, $page);
+            }
+        } elseif ($categorySlug) {
+            $category = $this->manager->getRepository(Category::class)->findOneBy([
+                'slug' => $categorySlug
+            ]);
+
+            if ($category) {
+                $data = $repo->findProductsByCategory($category, $page);
+            }
         }
 
-        return $data?:null;
+        return $data??new Response('liste des produits introuvable', 404);
 
     }
 }

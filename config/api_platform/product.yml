@@ -1,6 +1,9 @@
 App\Entity\Product:
   collectionOperations:
-    get: ~
+    get_products:
+      method: 'GET'
+      path: '/products'
+      controller: 'App\Controller\Getters\GetProducts'
     post:
       security: 'is_granted("ROLE_ADMIN")'
   itemOperations:
