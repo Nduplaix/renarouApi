@@ -3,14 +3,18 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use Cocur\Slugify\Slugify;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource
  * @ORM\Entity(repositoryClass="App\Repository\ProductRepository")
  * @ORM\HasLifecycleCallbacks
+ * @UniqueEntity(fields={"slug"}, message="Ce produit existe déja")
  */
 class Product
 {
@@ -67,6 +71,12 @@ class Product
      */
     private $images;
 
+    /**
+     * @ORM\Column(type="string", length=255, unique=true, nullable=true)
+     * @Assert\Unique()
+     */
+    private $slug;
+
     public function __construct()
     {
         $this->tReferences = new ArrayCollection();
@@ -79,6 +89,16 @@ class Product
      */
     public function init() {
         $this->createdAt = new \DateTime();
+        }
+
+    /**
+     * @ORM\PostPersist
+     * @ORM\PreUpdate
+     */
+    public function initSlug()
+    {
+        $slugify = new Slugify();
+        $this->slug = $slugify->slugify($this->label . " " . $this->id);
     }
 
     public function getId(): ?int
@@ -235,5 +255,17 @@ class Product
     public function __toString()
     {
         return '#'.$this->id. ' - ' .$this->subCategory . ' - ' . $this->label;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
+
+        return $this;
     }
 }
