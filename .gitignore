@@ -8,6 +8,7 @@
 /var/
 /vendor/
 /.idea/
+/docker/data/
 ###< symfony/framework-bundle ###
 
 ###> symfony/phpunit-bridge ###
@@ -19,3 +20,6 @@
 ###> lexik/jwt-authentication-bundle ###
 /config/jwt/*.pem
 ###< lexik/jwt-authentication-bundle ###
+
+
+/public/uploads/

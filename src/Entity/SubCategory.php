@@ -142,4 +142,9 @@ class SubCategory
 
         return $this;
     }
+
+    public function __toString()
+    {
+        return $this->category->getLabel() . ' - ' . $this->label;
+    }
 }

@@ -1,0 +1,18 @@
+easy_admin:
+  entities:
+    Size:
+      class: App\Entity\Size
+      list:
+        title: 'Liste des tailles'
+        actions: ['show']
+        fields:
+          - 'id'
+          - { property: 'label', label: 'Taille' }
+          - { property: 't_references', label: 'Références' }
+      show:
+        fields:
+          - { property: 'label', label: 'Taille' }
+          - { property: 't_references', label: 'Nombre de références' }
+      form:
+        fields:
+          - { property: 'label', label: 'Taille' }

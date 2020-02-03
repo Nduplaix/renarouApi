@@ -1,0 +1,22 @@
+easy_admin:
+  entities:
+    Reference:
+      class: App\Entity\Reference
+      list:
+        title: 'Liste des références'
+        actions: ['show']
+        fields:
+          - 'id'
+          - 'stock'
+          - { property: 'size', label: 'Taille' }
+          - { property: 'product', label: 'Produit' }
+        show:
+          fields:
+            - 'stock'
+            - { property: 'size', label: 'Taille' }
+            - { property: 'product', label: 'Produit' }
+        form:
+          fields:
+            - 'stock'
+            - { property: 'size', label: 'Taille' }
+            - { property: 'product', label: 'Produit' }

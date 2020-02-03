@@ -1,0 +1,23 @@
+easy_admin:
+  entities:
+    User:
+      class: App\Entity\User
+      list:
+        title: 'Liste des Utilisateurs'
+        actions: ['show']
+        fields:
+          - 'id'
+          - 'email'
+          - { property: 'firstName', label: 'Prénom' }
+          - { property: 'lastName', label: 'Nom' }
+          - { property: 'createdAt', label: "date d'inscription" }
+      show:
+        fields:
+          - 'email'
+          - { property: 'firstName', label: 'Prénom' }
+          - { property: 'lastName', label: 'Nom' }
+      form:
+        fields:
+          - 'email'
+          - { property: 'firstName', label: 'Prénom' }
+          - { property: 'lastName', label: 'Nom' }

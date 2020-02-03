@@ -1,0 +1,23 @@
+easy_admin:
+  entities:
+    Category:
+      class: App\Entity\Category
+      list:
+        title: 'Liste des catégories'
+        actions: ['show']
+        fields:
+          - 'id'
+          - { property: 'label', label: 'Nom de la catégorie' }
+          - { property: 'subCategories', label: 'Nombre de sous-categories' }
+      show:
+        fields:
+          - { property: 'label', label: 'Nom de la catégorie' }
+          - { property: 'slug', label: 'Slug de la catégorie' }
+          - { property: 'subCategories', label: 'Liste des sous-catégories' }
+      form:
+        fields:
+          - { property: 'label', label: 'Nom de la catégorie' }
+      new:
+        title: 'Ajouter une catégorie'
+      edit:
+        title: 'Modifier une catégorie'

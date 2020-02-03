@@ -39,6 +39,8 @@ class Image
      */
     private $product;
 
+    private $image;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -90,5 +92,26 @@ class Image
         $this->product = $product;
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * @param mixed $image
+     */
+    public function setImage($image): void
+    {
+        $this->image = $image;
+    }
+
+    public function __toString()
+    {
+        return $this->label;
     }
 }
