@@ -1,0 +1,25 @@
+easy_admin:
+  entities:
+    Image:
+      class: App\Entity\Image
+      list:
+        title: 'Liste des catégories'
+        actions: ['show']
+        fields:
+          - 'id'
+          - { property: 'label', label: "Nom de l'image" }
+          - { property: 'path', label: 'Chemin' }
+          - { property: 'alt', label: 'description(alt)' }
+          - { property: 'product', label: 'Produit' }
+      show:
+        fields:
+          - { property: 'label', label: "Nom de l'image" }
+          - { property: 'path', label: 'Chemin' }
+          - { property: 'alt', label: 'description(alt)' }
+          - { property: 'product', label: 'Produit' }
+      form:
+        fields:
+          - { property: 'label', label: "Nom de l'image" }
+          - { property: 'image', label: 'Image', type: 'file' }
+          - { property: 'alt', label: 'description(alt)' }
+          - { property: 'product', label: 'Produit' }

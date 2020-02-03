@@ -1,0 +1,21 @@
+easy_admin:
+  entities:
+    SubCategory:
+      class: App\Entity\SubCategory
+      list:
+        title: 'Liste des sous-catégories'
+        actions: ['show']
+        fields:
+          - 'id'
+          - { property: 'label', label: 'Nom de la sous-catégorie' }
+          - { property: 'category', label: 'Nom de la catégorie' }
+          - { property: 'products', label: 'Nombre de produits' }
+      show:
+        fields:
+          - { property: 'label', label: 'Nom de la sous-catégorie' }
+          - { property: 'category', label: 'Nom de la catégorie' }
+          - { property: 'products', label: 'Produits' }
+      form:
+        fields:
+          - { property: 'label', label: 'Nom de la sous-catégorie' }
+          - { property: 'category', label: 'Nom de la catégorie' }

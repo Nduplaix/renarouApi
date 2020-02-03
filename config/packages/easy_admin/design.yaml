@@ -1,0 +1,22 @@
+easy_admin:
+  site_name: "Renarou"
+  design:
+    brand_color: '#FF7400'
+    menu:
+      - label: 'Produits'
+        children: [
+          { entity: 'Product', label: 'Produits' },
+          { entity: 'Reference', label: 'Références' },
+          { entity: 'Size', label: 'Tailles' }
+          { entity: 'Image', label: 'Images' }
+        ]
+      - label: 'Catégories'
+        children: [
+          { entity: 'Category', label: 'Catégories' },
+          { entity: 'SubCategory', label: 'Sous-catégories' },
+        ]
+      - label: 'Utilisateurs'
+        children: [
+          { entity: 'User', label: 'Utilisateurs' },
+          { entity: 'Address', label: 'Adresses' },
+        ]

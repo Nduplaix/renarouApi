@@ -1,0 +1,30 @@
+easy_admin:
+  entities:
+    Product:
+      class: App\Entity\Product
+      list:
+        title: 'Liste des produits'
+        actions: ['show']
+        fields:
+          - 'id'
+          - { property: 'label', label: 'Nom du produit' }
+          - { property: 'price', label: 'Prix' }
+          - { property: 'discount', label: 'Promo' }
+          - { property: 'isOnline', label: 'En ligne?' }
+          - { property: 'subCategory', label: 'Sous-catégorie' }
+          - { property: 'createdAt', label: 'Date de création' }
+      show:
+        fields:
+          - { property: 'label', label: 'Nom du produit' }
+          - { property: 'price', label: 'Prix' }
+          - { property: 'discount', label: 'Promo' }
+          - { property: 'isOnline', label: 'En ligne?' }
+          - { property: 'subCategory', label: 'Sous-catégorie' }
+          - { property: 'createdAt', label: 'Date de création' }
+      form:
+        fields:
+          - { property: 'label', label: 'Nom du produit' }
+          - { property: 'price', label: 'Prix' }
+          - { property: 'discount', label: 'Promo' }
+          - { property: 'isOnline', label: 'En ligne?' }
+          - { property: 'subCategory', label: 'Sous-catégorie' }

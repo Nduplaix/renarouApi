@@ -1,0 +1,34 @@
+easy_admin:
+  entities:
+    Address:
+      class: App\Entity\Address
+      list:
+        title: Liste des adresses
+        actions: ['show', 'edit', 'search', 'delete', '-new']
+        fields:
+          - 'id'
+          - { property: 'number', label: 'Numéro' }
+          - { property: 'streetType', label: 'Type de rue' }
+          - { property: 'street', label: 'Rue' }
+          - { property: 'postalCode', label: 'Code postal' }
+          - { property: 'city', label: 'Ville' }
+          - { property: 'user', label: 'Utilisateur' }
+
+      show:
+        title: '%%entity%%'
+        fields:
+          - { property: 'number', label: 'Numéro' }
+          - { property: 'streetType', label: 'Type de rue' }
+          - { property: 'street', label: 'Rue' }
+          - { property: 'postalCode', label: 'Code postal' }
+          - { property: 'city', label: 'Ville' }
+          - { property: 'user', label: 'Utilisateur' }
+
+      edit:
+        title: '%%entity%%'
+        fields:
+          - { property: 'number', label: 'Numéro' }
+          - { property: 'streetType', label: 'Type de rue' }
+          - { property: 'street', label: 'Rue' }
+          - { property: 'postalCode', label: 'Code postal' }
+          - { property: 'city', label: 'Ville' }

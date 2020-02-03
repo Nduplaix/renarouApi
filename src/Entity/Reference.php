@@ -75,4 +75,9 @@ class Reference
 
         return $this;
     }
+
+    public function __toString()
+    {
+        return $this->product->getLabel() . ' - ' . $this->size->getLabel();
+    }
 }
