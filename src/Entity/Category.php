@@ -7,14 +7,15 @@ use Cocur\Slugify\Slugify;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource
  * @ORM\Entity(repositoryClass="App\Repository\CategoryRepository")
  * @ORM\HasLifecycleCallbacks
- * UniqueEntity(fields={'slug'},
- * message="Cette categorie existe deja"
+ * @UniqueEntity("slug", message="Cette sous-categorie existe déja")
  */
 class Category
 {
@@ -33,8 +34,9 @@ class Category
     private $label;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true, nullable=true)
      * @Groups("categories")
+     * @Assert\Unique()
      */
     private $slug;
 
@@ -51,17 +53,14 @@ class Category
 
     /**
      * Permet d'initialiser le slug
-     *@ORM\PrePersist
-     *@ORM\PreUpdate
+     * @ORM\PostPersist
+     * @ORM\PreUpdate
      *
      * @return void
      */
     public function initSlug(){
-        if (empty($this->slug))
-        {
-            $slugify = new Slugify();
-            $this->slug= $slugify->slugify($this->label);
-        }
+        $slugify = new Slugify();
+        $this->slug= $slugify->slugify($this->label . '-' . $this->id);
     }
 
     public function getId(): ?int

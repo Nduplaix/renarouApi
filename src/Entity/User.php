@@ -7,9 +7,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @author Nicolas <nduplaix62@gmail.com>
@@ -17,6 +19,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ApiResource
  *
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @UniqueEntity("email", message="Cette adresse e-mail est déja utilisée")
  * @ORM\HasLifecycleCallbacks()
  */
 class User implements UserInterface
@@ -34,6 +37,7 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=180, unique=true)
      *
      * @Groups("get")
+     * @Assert\Unique()
      */
     private $email;
 
