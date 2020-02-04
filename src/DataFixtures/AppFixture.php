@@ -184,7 +184,7 @@ class AppFixture extends Fixture
                 $image = new Image();
                 $image
                     ->setLabel('immage'.$i)
-                    ->setPath('http://placehold.it/250x400')
+                    ->setLink('http://placehold.it/250x400')
                     ->setProduct($product);
 
                 $manager->persist($image);

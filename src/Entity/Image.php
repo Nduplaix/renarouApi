@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ApiResource
@@ -20,16 +21,19 @@ class Image
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("product")
      */
     private $label;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups("product")
      */
     private $path;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups("product")
      */
     private $alt;
 
@@ -40,6 +44,12 @@ class Image
     private $product;
 
     private $image;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Groups("product")
+     */
+    private $link;
 
     public function getId(): ?int
     {
@@ -113,5 +123,17 @@ class Image
     public function __toString()
     {
         return $this->label;
+    }
+
+    public function getLink(): ?string
+    {
+        return $this->link;
+    }
+
+    public function setLink(string $link): self
+    {
+        $this->link = $link;
+
+        return $this;
     }
 }

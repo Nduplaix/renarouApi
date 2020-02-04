@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -27,31 +28,37 @@ class Product
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("product")
      */
     private $label;
 
     /**
      * @ORM\Column(type="float")
+     * @Groups("product")
      */
     private $price;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups("product")
      */
     private $description;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * @Groups("product")
      */
     private $discount;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Groups("product")
      */
     private $isOnline;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups("product")
      */
     private $createdAt;
 
@@ -63,17 +70,20 @@ class Product
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Reference", mappedBy="product", orphanRemoval=true)
+     * @Groups("product")
      */
     private $tReferences;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="product", orphanRemoval=true)
+     * @Groups("product")
      */
     private $images;
 
     /**
      * @ORM\Column(type="string", length=255, unique=true, nullable=true)
      * @Assert\Unique()
+     * @Groups("product")
      */
     private $slug;
 
