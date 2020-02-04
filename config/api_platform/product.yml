@@ -4,6 +4,7 @@ App\Entity\Product:
       method: 'GET'
       path: '/products'
       controller: 'App\Controller\Getters\GetProducts'
+      pagination_fetch_join_collection: true
       normalization_context:
         groups: ['product']
     post:
