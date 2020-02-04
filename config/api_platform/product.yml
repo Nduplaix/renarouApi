@@ -4,6 +4,8 @@ App\Entity\Product:
       method: 'GET'
       path: '/products'
       controller: 'App\Controller\Getters\GetProducts'
+      normalization_context:
+        groups: ['product']
     post:
       security: 'is_granted("ROLE_ADMIN")'
   itemOperations:

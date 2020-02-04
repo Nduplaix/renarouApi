@@ -42,6 +42,8 @@ class ProductRepository extends ServiceEntityRepository
 
         $query = $qb
             ->where('product.subCategory = :subCat')
+            ->andWhere('product.isOnline = true')
+            ->orderBy('product.createdAt', 'DESC')
             ->setParameter('subCat', $subCategory);
 
         $criteria = Criteria::create()
@@ -77,6 +79,8 @@ class ProductRepository extends ServiceEntityRepository
         $query = $qb
             ->join('product.subCategory', 'subCategory')
             ->where('subCategory.category = :category')
+            ->andWhere('product.isOnline = true')
+            ->orderBy('product.createdAt', 'DESC')
             ->setParameter('category', $category);
 
         $criteria = Criteria::create()

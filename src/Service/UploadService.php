@@ -28,7 +28,7 @@ class UploadService
         return '/'. $uploadDirectory. '/' . $imageName;
     }
 
-    function deleteImage($productId)
+    function deleteProductImages($productId)
     {
         $uploadDirectory = 'uploads/images/' . $productId;
         $path = $this->kernel->getProjectDir().'/public/' . $uploadDirectory;
@@ -42,4 +42,40 @@ class UploadService
 
         return false;
     }
+
+    function deleteImage($path)
+    {
+        if (file_exists($path)) {
+            $fileSystem = new Filesystem();
+
+            $fileSystem->remove($path);
+            return true;
+        }
+
+        return false;
+    }
+
+    function moveImage($oldPath, $productId)
+    {
+        $basePath = $this->kernel->getProjectDir().'/public/';
+        if (file_exists($basePath . $oldPath)) {
+            $fileSystem = new Filesystem();
+
+            $imagePath = explode("/", $oldPath);
+
+            $image = end($imagePath);
+
+            $uploadDirectory = 'uploads/images/' . $productId . "/" . $image;
+            $path = $this->kernel->getProjectDir().'/public/' . $uploadDirectory;
+
+            $fileSystem->copy($basePath . $oldPath, $path);
+            $fileSystem->remove($basePath . $oldPath);
+
+
+            return $uploadDirectory;
+        }
+
+        return false;
+    }
+
 }
