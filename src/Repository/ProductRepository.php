@@ -31,10 +31,11 @@ class ProductRepository extends ServiceEntityRepository
      * find all products for the sub-category in parameter
      * @param SubCategory $subCategory
      * @param int $page
+     * @param $displayAll
      * @return Paginator
      * @throws QueryException
      */
-    public function findProductsBySubCategory(SubCategory $subCategory, int $page)
+    public function findProductsBySubCategory(SubCategory $subCategory, int $page, $displayAll)
     {
         $firstResult = ($page -1) * self::ITEMS_PER_PAGE;
 
@@ -46,30 +47,35 @@ class ProductRepository extends ServiceEntityRepository
             ->orderBy('product.createdAt', 'DESC')
             ->setParameter('subCat', $subCategory);
 
-        $criteria = Criteria::create()
-            ->setFirstResult($firstResult)
-            ->setMaxResults(self::ITEMS_PER_PAGE);
+        if ($displayAll === null || $displayAll === "false") {
+            $criteria = Criteria::create()
+                ->setFirstResult($firstResult)
+                ->setMaxResults(self::ITEMS_PER_PAGE);
 
-        try {
-            $query->addCriteria($criteria);
-        } catch (QueryException $e) {
-            throw $e;
+            try {
+                $query->addCriteria($criteria);
+            } catch (QueryException $e) {
+                throw $e;
+            }
+
+            $doctrinePaginator = new DoctrinePaginator($query);
+            $paginator = new Paginator($doctrinePaginator);
+
+            return $paginator;
         }
 
-        $doctrinePaginator = new DoctrinePaginator($query);
-        $paginator = new Paginator($doctrinePaginator);
-
-        return $paginator;
+        return $query->getQuery()->getResult();
     }
 
     /**
      * find all products for the category in parameter
      * @param Category $category
      * @param int $page
+     * @param $displayAll
      * @return Paginator
      * @throws QueryException
      */
-    public function findProductsByCategory(Category $category, int $page)
+    public function findProductsByCategory(Category $category, int $page, $displayAll)
     {
 
         $firstResult = ($page -1) * self::ITEMS_PER_PAGE;
@@ -83,20 +89,24 @@ class ProductRepository extends ServiceEntityRepository
             ->orderBy('product.createdAt', 'DESC')
             ->setParameter('category', $category);
 
-        $criteria = Criteria::create()
-            ->setFirstResult($firstResult)
-            ->setMaxResults(self::ITEMS_PER_PAGE);
+        if ($displayAll === null || $displayAll === "false") {
+            $criteria = Criteria::create()
+                ->setFirstResult($firstResult)
+                ->setMaxResults(self::ITEMS_PER_PAGE);
 
-        try {
-            $query->addCriteria($criteria);
-        } catch (QueryException $e) {
-            throw $e;
+            try {
+                $query->addCriteria($criteria);
+            } catch (QueryException $e) {
+                throw $e;
+            }
+
+            $doctrinePaginator = new DoctrinePaginator($query);
+            $paginator = new Paginator($doctrinePaginator);
+
+            return $paginator;
         }
 
-        $doctrinePaginator = new DoctrinePaginator($query);
-        $paginator = new Paginator($doctrinePaginator);
-
-        return $paginator;
+        return $query->getQuery()->getResult();
     }
 
     // /**

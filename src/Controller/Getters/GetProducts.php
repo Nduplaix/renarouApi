@@ -32,6 +32,7 @@ class GetProducts
 
         $subCategorySlug = $request->query->get('subcategory');
         $categorySlug = $request->query->get('category');
+        $displayAll = $request->query->get('all');
 
         if ($subCategorySlug)
         {
@@ -40,7 +41,7 @@ class GetProducts
             ]);
 
             if ($subCategory) {
-                $data = $repo->findProductsBySubCategory($subCategory, $page);
+                $data = $repo->findProductsBySubCategory($subCategory, $page, $displayAll);
             }
         } elseif ($categorySlug) {
             $category = $this->manager->getRepository(Category::class)->findOneBy([
@@ -48,7 +49,7 @@ class GetProducts
             ]);
 
             if ($category) {
-                $data = $repo->findProductsByCategory($category, $page);
+                $data = $repo->findProductsByCategory($category, $page, $displayAll);
             }
         }
 
