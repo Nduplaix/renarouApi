@@ -11,7 +11,14 @@ App\Entity\Product:
       method: 'GET'
       path: '/products/news'
       controller: 'App\Controller\Getters\GetNewProducts'
-      pagination_fetch_join_collection: true
+      normalization_context:
+        groups: ['products']
+      formats:
+        0: 'json'
+    get_discounted_products:
+      method: 'GET'
+      path: '/products/discount'
+      controller: 'App\Controller\Getters\GetDiscountedProducts'
       normalization_context:
         groups: ['products']
       formats:
