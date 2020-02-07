@@ -21,19 +21,19 @@ class Image
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups("product")
+     * @Groups({"products"})
      */
     private $label;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups("product")
+     * @Groups({"products"})
      */
     private $path;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups("product")
+     * @Groups({"products"})
      */
     private $alt;
 
@@ -47,7 +47,7 @@ class Image
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups("product")
+     * @Groups({"products"})
      */
     private $link;
 

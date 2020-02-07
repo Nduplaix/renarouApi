@@ -69,10 +69,12 @@ class UploadService
             $path = $this->kernel->getProjectDir().'/public/' . $uploadDirectory;
 
             $fileSystem->copy($basePath . $oldPath, $path);
-            $fileSystem->remove($basePath . $oldPath);
 
+            if ($basePath . $oldPath !== $path) {
+                $fileSystem->remove($basePath . $oldPath);
+            }
 
-            return $uploadDirectory;
+            return '/' . $uploadDirectory;
         }
 
         return false;

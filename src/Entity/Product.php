@@ -28,62 +28,62 @@ class Product
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups("product")
+     * @Groups({"products"})
      */
     private $label;
 
     /**
      * @ORM\Column(type="float")
-     * @Groups("product")
+     * @Groups({"products"})
      */
     private $price;
 
     /**
      * @ORM\Column(type="text", nullable=true)
-     * @Groups("product")
+     * @Groups({"product"})
      */
     private $description;
 
     /**
      * @ORM\Column(type="float", nullable=true)
-     * @Groups("product")
+     * @Groups({"products"})
      */
     private $discount;
 
     /**
      * @ORM\Column(type="boolean")
-     * @Groups("product")
+     * @Groups({"products"})
      */
     private $isOnline;
 
     /**
      * @ORM\Column(type="datetime")
-     * @Groups("product")
+     * @Groups({"products"})
      */
     private $createdAt;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\SubCategory", inversedBy="products")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"product"})
      */
     private $subCategory;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Reference", mappedBy="product", orphanRemoval=true)
-     * @Groups("product")
+     * @Groups({"product"})
      */
     private $tReferences;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="product", orphanRemoval=true)
-     * @Groups("product")
+     * @Groups({"products"})
      */
     private $images;
 
     /**
      * @ORM\Column(type="string", length=255, unique=true, nullable=true)
-     * @Assert\Unique()
-     * @Groups("product")
+     * @Groups({"products"})
      */
     private $slug;
 

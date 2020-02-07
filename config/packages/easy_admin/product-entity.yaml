@@ -17,14 +17,17 @@ easy_admin:
         fields:
           - { property: 'label', label: 'Nom du produit' }
           - { property: 'price', label: 'Prix' }
+          - { property: 'description', label: 'Description' }
           - { property: 'discount', label: 'Promo' }
           - { property: 'isOnline', label: 'En ligne?' }
           - { property: 'subCategory', label: 'Sous-catégorie' }
           - { property: 'createdAt', label: 'Date de création' }
+          - { property: 'slug', label: 'slug' }
       form:
         fields:
           - { property: 'label', label: 'Nom du produit' }
           - { property: 'price', label: 'Prix' }
+          - { property: 'description', label: 'Description', type: 'text_editor' }
           - { property: 'discount', label: 'Promo' }
           - { property: 'isOnline', label: 'En ligne?' }
           - { property: 'subCategory', label: 'Sous-catégorie' }
