@@ -7,6 +7,15 @@ App\Entity\Product:
       pagination_fetch_join_collection: true
       normalization_context:
         groups: ['products']
+    get_new_products:
+      method: 'GET'
+      path: '/products/news'
+      controller: 'App\Controller\Getters\GetNewProducts'
+      pagination_fetch_join_collection: true
+      normalization_context:
+        groups: ['products']
+      formats:
+        0: 'json'
     post:
       security: 'is_granted("ROLE_ADMIN")'
   itemOperations:
