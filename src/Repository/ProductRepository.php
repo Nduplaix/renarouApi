@@ -21,6 +21,7 @@ use Doctrine\ORM\Tools\Pagination\Paginator as DoctrinePaginator;
 class ProductRepository extends ServiceEntityRepository
 {
     const ITEMS_PER_PAGE = 20;
+    const NEW_PRODUCTS_COUNT = 5;
 
     public function __construct(ManagerRegistry $registry)
     {
@@ -109,32 +110,16 @@ class ProductRepository extends ServiceEntityRepository
         return $query->getQuery()->getResult();
     }
 
-    // /**
-    //  * @return Product[] Returns an array of Product objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function getNewProducts()
     {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+        $date = new \DateTime();
+        $startDate = $date->modify("-1 week");
+        return $this->createQueryBuilder('product')
+            ->where('product.createdAt > :now')
+            ->andWhere('product.isOnline = true')
+            ->orderBy('product.createdAt', 'DESC')
+            ->setMaxResults(self::NEW_PRODUCTS_COUNT)
+            ->setParameter('now', $startDate)
+            ->getQuery()->getResult();
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Product
-    {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }
