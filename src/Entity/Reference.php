@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ApiResource
@@ -15,17 +16,20 @@ class Reference
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"product"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups({"product"})
      */
     private $stock;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Size", inversedBy="t_references")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"product"})
      */
     private $size;
 

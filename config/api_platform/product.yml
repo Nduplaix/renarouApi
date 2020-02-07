@@ -6,11 +6,15 @@ App\Entity\Product:
       controller: 'App\Controller\Getters\GetProducts'
       pagination_fetch_join_collection: true
       normalization_context:
-        groups: ['product']
+        groups: ['products']
     post:
       security: 'is_granted("ROLE_ADMIN")'
   itemOperations:
-    get: ~
+    get:
+      normalization_context:
+        groups: ['products', 'product']
+      formats:
+        0: 'json'
     patch:
       security: 'is_granted("ROLE_ADMIN")'
     delete:
