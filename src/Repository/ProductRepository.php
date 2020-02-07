@@ -122,4 +122,17 @@ class ProductRepository extends ServiceEntityRepository
             ->setParameter('now', $startDate)
             ->getQuery()->getResult();
     }
+
+    public function getDiscountedProducts()
+    {
+        $date = new \DateTime();
+        $startDate = $date->modify("-1 week");
+        return $this->createQueryBuilder('product')
+            ->where('product.discount is not null')
+            ->andWhere('product.discount > 0')
+            ->andWhere('product.isOnline = true')
+            ->orderBy('product.createdAt', 'DESC')
+            ->setMaxResults(self::NEW_PRODUCTS_COUNT)
+            ->getQuery()->getResult();
+    }
 }
