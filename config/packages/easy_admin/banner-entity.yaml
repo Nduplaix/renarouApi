@@ -1,0 +1,24 @@
+easy_admin:
+  entities:
+    Banner:
+      class: App\Entity\Banner
+      list:
+        title: 'Liste des bannières'
+        actions: ['show']
+        fields:
+          - 'id'
+          - { property: 'label', label: "Nom de l'image" }
+          - { property: 'link', label: 'Chemin' }
+          - { property: 'description', label: 'Description' }
+          - { property: 'image', label: 'Image', type: 'image' }
+      show:
+        fields:
+          - { property: 'label', label: "Nom de l'image" }
+          - { property: 'link', label: 'Chemin' }
+          - { property: 'description', label: 'Description' }
+          - { property: 'image', label: 'Image', type: 'image' }
+      form:
+        fields:
+          - { property: 'label', label: "Nom de l'image" }
+          - { property: 'imageUpload', label: 'Image', type: 'file' }
+          - { property: 'description', label: 'description' }

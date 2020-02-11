@@ -20,3 +20,4 @@ easy_admin:
           { entity: 'User', label: 'Utilisateurs' },
           { entity: 'Address', label: 'Adresses' },
         ]
+      - { entity: 'Banner', label: 'Bannières' }

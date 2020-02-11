@@ -3,7 +3,7 @@ easy_admin:
     Image:
       class: App\Entity\Image
       list:
-        title: 'Liste des catégories'
+        title: 'Liste des images'
         actions: ['show']
         fields:
           - 'id'
