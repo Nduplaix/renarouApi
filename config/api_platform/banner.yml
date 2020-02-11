@@ -1,0 +1,9 @@
+App\Entity\Banner:
+  collectionOperations:
+    get:
+      formats:
+        0: 'json'
+  itemOperations:
+    get:
+      formats:
+        0: 'json'
