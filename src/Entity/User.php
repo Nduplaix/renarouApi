@@ -37,20 +37,19 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=180, unique=true)
      *
      * @Groups("get")
-     * @Assert\Unique()
      */
     private $email;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     *
+     * @ORM\Column(type="string", length=255, nullable=false)
+     * @Assert\NotBlank()
      * @Groups("get")
      */
     private $firstName;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     *
+     * @ORM\Column(type="string", length=255, nullable=false)
+     * @Assert\NotBlank()
      * @Groups("get")
      */
     private $lastName;
@@ -67,6 +66,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string")
+     * @Assert\NotBlank()
      */
     private $password;
 
@@ -80,6 +80,24 @@ class User implements UserInterface
     public function __construct()
     {
         $this->addresses = new ArrayCollection();
+    }
+
+    /**
+     * @ORM\PrePersist()
+     */
+    public function init()
+    {
+        $date = new \DateTime();
+        $this->createdAt = $date;
+        $this->updatedAt = $date;
+    }
+
+    /**
+     * @ORM\PreUpdate()
+     */
+    public function update()
+    {
+        $this->updatedAt = new \DateTime();
     }
 
     public function getId(): ?int
