@@ -3,7 +3,8 @@ App\Entity\Address:
     security: 'is_granted("ROLE_USER")'
   collectionOperations:
     get: ~
-    post: ~
+    post:
+      security: 'is_granted("ROLE_USER")'
   itemOperations:
     get:
       security: 'is_granted("ROLE_USER") and object.user.getId() == user.getId()'

@@ -6,6 +6,9 @@ namespace App\Controller;
 
 use App\Entity\User;
 use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class CreateUser
@@ -20,8 +23,14 @@ class CreateUser
         $this->encoder = $encoder;
     }
 
-    public function __invoke(User $data, ObjectManager $manager): User
+    public function __invoke(User $data, EntityManagerInterface $manager)
     {
+        $user = $manager->getRepository(User::class)->findOneBy(["email" => $data->getEmail()]);
+
+        if ($user) {
+            return new JsonResponse(["message" => "Cette addresse email est déja utilisé", "code" => Response::HTTP_UNAUTHORIZED ], Response::HTTP_UNAUTHORIZED);
+        }
+
         $passwordEncoded = $this->encoder->encodePassword($data, $data->getPlainPassword());
         $roles = $data->getRoles();
 
