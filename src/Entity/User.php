@@ -30,27 +30,28 @@ class User implements UserInterface
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"getUser"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      *
-     * @Groups("get")
+     * @Groups({"getUser"})
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=false)
      * @Assert\NotBlank()
-     * @Groups("get")
+     * @Groups({"getUser"})
      */
     private $firstName;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=false)
      * @Assert\NotBlank()
-     * @Groups("get")
+     * @Groups({"getUser"})
      */
     private $lastName;
 
@@ -73,7 +74,7 @@ class User implements UserInterface
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Address", mappedBy="user", orphanRemoval=true)
      *
-     * @Groups("get")
+     * @Groups({"getUser"})
      */
     private $addresses;
 
