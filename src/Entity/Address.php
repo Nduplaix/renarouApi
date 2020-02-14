@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ApiResource
@@ -20,26 +21,31 @@ class Address
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"getUser"})
      */
     private $number;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"getUser"})
      */
     private $streetType;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"getUser"})
      */
     private $street;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"getUser"})
      */
     private $city;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"getUser"})
      */
     private $postalCode;
 
