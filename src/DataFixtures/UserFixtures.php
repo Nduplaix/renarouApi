@@ -61,7 +61,7 @@ class UserFixtures extends Fixture
             $address = new Address();
             $address
                 ->setNumber('1')
-                ->setStreetType('Rue')
+                ->setStreetType('rue')
                 ->setStreet('test')
                 ->setCity('TestCity')
                 ->setPostalCode('59000')

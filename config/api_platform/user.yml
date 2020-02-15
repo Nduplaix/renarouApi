@@ -24,4 +24,10 @@ App\Entity\User:
       controller: 'App\Controller\UpdateUser'
       normalization_context:
         groups: ['getUser']
-
+      formats:
+        0: 'json'
+    check_password:
+      security: 'is_granted("ROLE_USER") and object.getId() == user.getId()'
+      method: 'POST'
+      path: '/users/{id}'
+      controller: 'App\Controller\CheckUserPassword'
