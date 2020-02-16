@@ -78,6 +78,12 @@ class User implements UserInterface
      */
     private $addresses;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Basket", mappedBy="user", cascade={"persist", "remove"})
+     * @Groups({"getUser"})
+     */
+    private $basket;
+
     public function __construct()
     {
         $this->addresses = new ArrayCollection();
@@ -91,6 +97,8 @@ class User implements UserInterface
         $date = new \DateTime();
         $this->createdAt = $date;
         $this->updatedAt = $date;
+        $this->basket = new Basket();
+        $this->getBasket()->setUser($this);
     }
 
     /**
@@ -295,6 +303,23 @@ class User implements UserInterface
             if ($address->getUser() === $this) {
                 $address->setUser(null);
             }
+        }
+
+        return $this;
+    }
+
+    public function getBasket(): ?Basket
+    {
+        return $this->basket;
+    }
+
+    public function setBasket(Basket $basket): self
+    {
+        $this->basket = $basket;
+
+        // set the owning side of the relation if necessary
+        if ($basket->getUser() !== $this) {
+            $basket->setUser($this);
         }
 
         return $this;

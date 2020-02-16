@@ -21,19 +21,19 @@ class Image
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"products"})
+     * @Groups({"products", "getUser"})
      */
     private $label;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"products"})
+     * @Groups({"products", "getUser"})
      */
     private $path;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"products"})
+     * @Groups({"products", "getUser"})
      */
     private $alt;
 
@@ -47,7 +47,7 @@ class Image
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"products"})
+     * @Groups({"products", "getUser"})
      */
     private $link;
 

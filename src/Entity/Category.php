@@ -29,13 +29,13 @@ class Category
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"categories", "product"})
+     * @Groups({"categories", "product", "getUser"})
      */
     private $label;
 
     /**
      * @ORM\Column(type="string", length=255, unique=true, nullable=true)
-     * @Groups({"categories", "product"})
+     * @Groups({"categories", "product", "getUser"})
      * @Assert\Unique()
      */
     private $slug;
