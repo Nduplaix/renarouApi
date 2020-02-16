@@ -5,7 +5,7 @@ namespace App\Controller;
 
 
 use App\Entity\User;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UpdateUser
@@ -20,7 +20,7 @@ class UpdateUser
         $this->encoder = $encoder;
     }
 
-    public function __invoke(User $data, ObjectManager $manager): User
+    public function __invoke(User $data, EntityManagerInterface $manager): User
     {
         if($data->getPlainPassword()) {
             $passwordEncoded = $this->encoder->encodePassword($data, $data->getPlainPassword());
