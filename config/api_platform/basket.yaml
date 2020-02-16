@@ -1,0 +1,11 @@
+App\Entity\Basket:
+  collectionOperations:
+    get:
+      formats:
+        0: 'json'
+      security: 'is_granted("ROLE_USER") and object.getUser().getId() == user.getId()'
+  itemOperations:
+    get:
+      security: 'is_granted("ROLE_USER") and object.getUser().getId() == user.getId()'
+      formats:
+        0: 'json'

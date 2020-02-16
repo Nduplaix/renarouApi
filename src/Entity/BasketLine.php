@@ -2,12 +2,14 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\BasketLineRepository")
  * @ORM\HasLifecycleCallbacks()
+ * @ApiResource()
  */
 class BasketLine
 {
@@ -57,6 +59,8 @@ class BasketLine
         } else {
             $this->setTotalPrice($this->getReference()->getProduct()->getPrice() * $this->quantity);
         }
+
+        $this->getBasket()->addBasketLine($this);
         $this->getBasket()->initPrice();
     }
 

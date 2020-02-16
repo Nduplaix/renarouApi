@@ -1,0 +1,11 @@
+App\Entity\BasketLine:
+  collectionOperations:
+    post:
+      method: 'POST'
+      path: '/basket-lines'
+      controller: 'App\Controller\Basket\CreateBasketLine'
+#      security: 'is_granted("ROLE_USER") and object.getBasket().getUser().getId() == user.getId()'
+  itemOperations:
+    get:
+      formats:
+        0: 'json'
