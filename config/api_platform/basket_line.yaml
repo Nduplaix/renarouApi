@@ -4,8 +4,12 @@ App\Entity\BasketLine:
       method: 'POST'
       path: '/basket-lines'
       controller: 'App\Controller\Basket\CreateBasketLine'
-#      security: 'is_granted("ROLE_USER") and object.getBasket().getUser().getId() == user.getId()'
   itemOperations:
     get:
       formats:
         0: 'json'
+    patch:
+      security: 'is_granted("ROLE_USER") and object.getBasket().getUser().getId() == user.getId()'
+    delete:
+      security: 'is_granted("ROLE_USER") and object.getBasket().getUser().getId() == user.getId()'
+

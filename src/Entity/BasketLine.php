@@ -47,20 +47,50 @@ class BasketLine
     private $basket;
 
     /**
+     * @ORM\Column(type="float")
+     * @Groups({"getUser"})
+     */
+    private $totalWithDiscount;
+
+    /**
      * @ORM\PrePersist()
      * @ORM\PreUpdate()
      */
-    public function initTotalPrice() {
+    public function initTotalPrice()
+    {
         $discount = $this->getReference()->getProduct()->getDiscount();
-        if ($discount || $discount > 0) {
-            $referencePrice = $this->getReference()->getProduct()->getPrice();
-            $priceAfterDiscount = $referencePrice * $discount / 100;
-            $this->setTotalPrice($priceAfterDiscount * $this->quantity);
-        } else {
-            $this->setTotalPrice($this->getReference()->getProduct()->getPrice() * $this->quantity);
-        }
 
+        $this->setTotalPrice($this->getReference()->getProduct()->getPrice() * $this->quantity);
+
+        if ($discount || $discount > 0) {
+            $this->setTotalWithDiscount($this->getTotalPrice() - $this->getTotalPrice() * $discount / 100);
+        } else {
+            $this->setTotalWithDiscount($this->getTotalPrice());
+        }
+    }
+
+    /**
+     * @ORM\PostPersist()
+     */
+    public function prepersistUpdate()
+    {
         $this->getBasket()->addBasketLine($this);
+        $this->getBasket()->initPrice();
+    }
+
+    /**
+     * @ORM\PostUpdate()
+     */
+    public function updateBasketOnUpdate()
+    {
+        $this->getBasket()->initPrice();
+    }
+
+    /**
+     * @ORM\PostRemove()
+     */
+    public function updateBasketOnDelete()
+    {
         $this->getBasket()->initPrice();
     }
 
@@ -113,6 +143,18 @@ class BasketLine
     public function setBasket(?Basket $basket): self
     {
         $this->basket = $basket;
+
+        return $this;
+    }
+
+    public function getTotalWithDiscount(): ?float
+    {
+        return $this->totalWithDiscount;
+    }
+
+    public function setTotalWithDiscount(float $totalWithDiscount): self
+    {
+        $this->totalWithDiscount = $totalWithDiscount;
 
         return $this;
     }

@@ -8,13 +8,18 @@ use App\Entity\Basket;
 use App\Entity\BasketLine;
 use App\Entity\Reference;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-class CreateBasketLine
+class CreateBasketLine extends AbstractController
 {
     public function __invoke(BasketLine $data, EntityManagerInterface $manager)
     {
         $basket = $data->getBasket();
+
+        if ($data->getBasket()->getUser()->getId() !== $this->getUser()->getId()) {
+            return new JsonResponse(["code" => 401, "message" => "Mauvais utilisateur"], 401);
+        }
 
         if ($basket) {
             $alreadyExistLine = $this->basketLineAlreadyExist($basket, $data->getReference());

@@ -40,18 +40,44 @@ class Basket
     private $basketLines;
 
     /**
+     * @ORM\Column(type="integer")
+     * @Groups({"getUser"})
+     */
+    private $productCount;
+
+    /**
+     * @ORM\Column(type="float")
+     * @Groups({"getUser"})
+     */
+    private $totalDiscount;
+
+    /**
+     * @ORM\Column(type="float")
+     * @Groups({"getUser"})
+     */
+    private $totalWithDiscount;
+
+    /**
      * @ORM\PrePersist()
      * @ORM\PreUpdate()
      */
     public function initPrice()
     {
         $price = 0;
+        $count = 0;
+        $discount = 0;
 
         foreach ($this->getBasketLines() as $line) {
             $price += $line->getTotalPrice();
+            $count += $line->getQuantity();
+            $lineProduct = $line->getReference()->getProduct();
+            $discount += $lineProduct->getDiscount() * $lineProduct->getPrice() / 100;
         }
 
         $this->setPrice($price);
+        $this->setProductCount($count);
+        $this->setTotalDiscount($discount);
+        $this->setTotalWithDiscount($this->getPrice() - $this->totalDiscount);
     }
 
     public function __construct()
@@ -115,6 +141,42 @@ class Basket
                 $basketLine->setBasket(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getProductCount(): ?int
+    {
+        return $this->productCount;
+    }
+
+    public function setProductCount(int $productCount): self
+    {
+        $this->productCount = $productCount;
+
+        return $this;
+    }
+
+    public function getTotalDiscount(): ?float
+    {
+        return $this->totalDiscount;
+    }
+
+    public function setTotalDiscount(float $totalDiscount): self
+    {
+        $this->totalDiscount = $totalDiscount;
+
+        return $this;
+    }
+
+    public function getTotalWithDiscount(): ?float
+    {
+        return $this->totalWithDiscount;
+    }
+
+    public function setTotalWithDiscount(float $totalWithDiscount): self
+    {
+        $this->totalWithDiscount = $totalWithDiscount;
 
         return $this;
     }
