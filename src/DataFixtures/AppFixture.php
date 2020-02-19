@@ -2,8 +2,8 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Address;
 use App\Entity\Adress;
+use App\Entity\Banner;
 use App\Entity\Category;
 use App\Entity\Commande;
 use App\Entity\CommandeLine;
@@ -14,14 +14,70 @@ use App\Entity\Product;
 use App\Entity\Reference;
 use App\Entity\Size;
 use App\Entity\SubCategory;
-use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Faker;
 
 class AppFixture extends Fixture
 {
     private $encoder;
+
+    const CHILD_SIZES = [
+        "1 ans",
+        "6 ans",
+        "7 ans"
+    ];
+
+    const BABY_SIZES = [
+        "2-3 mois",
+        "4-5 mois",
+    ];
+
+    const CATEGORIES_DATA = [
+        [
+            "label" => "Fille",
+            "subCategories" => [
+                "Pantalons",
+                "T-shirts",
+                "Pulls",
+                "Vestes",
+                "Robes",
+                "Jupes"
+            ]
+        ],
+        [
+            "label" => "Garçon",
+            "subCategories" => [
+                "Pantalons",
+                "T-shirts",
+                "Pulls",
+                "Vestes",
+            ]
+        ],
+        [
+            "label" => "Bébé Fille",
+            "subCategories" => [
+                "Pantalons",
+                "T-shirts",
+                "Pulls",
+                "Vestes",
+                "Robes",
+                "Jupes",
+                "Bodies"
+            ]
+        ],
+        [
+            "label" => "Bébé Garçon",
+            "subCategories" => [
+                "Pantalons",
+                "T-shirts",
+                "Pulls",
+                "Vestes",
+                "Bodies"
+            ]
+        ]
+    ];
 
     public function __construct(UserPasswordEncoderInterface $encoder)
     {
@@ -30,173 +86,94 @@ class AppFixture extends Fixture
 
     public function load(ObjectManager $manager)
     {
-        // #################### Categorie Fille #################################
-        $category = new Category();
-        $category->setLabel('Filles');
+        $faker = Faker\Factory::create('fr_FR');
 
-        $manager->persist($category);
+        $childSizes = [];
+        $babySizes = [];
 
-        // ##################### SubCatégoires ##################################
-        $subCategory = new SubCategory();
-        $subCategory->setLabel('Pantalon');
-        $subCategory->setCategory($category);
-        $manager->persist($subCategory);
+        foreach (self::CHILD_SIZES as $sizeData) {
+            $size = new Size();
+            $size->setLabel($sizeData);
 
-        $subCategory = new SubCategory();
-        $subCategory->setLabel('T-shirt');
-        $subCategory->setCategory($category);
-        $manager->persist($subCategory);
+            $childSizes[] = $size;
 
-        $subCategory = new SubCategory();
-        $subCategory->setLabel('Pulls');
-        $subCategory->setCategory($category);
-        $manager->persist($subCategory);
+            $manager->persist($size);
+        }
 
-        $subCategory = new SubCategory();
-        $subCategory->setLabel('Vestes');
-        $subCategory->setCategory($category);
-        $manager->persist($subCategory);
+        foreach (self::BABY_SIZES as $sizeData) {
+            $size = new Size();
+            $size->setLabel($sizeData);
 
-        $subCategory = new SubCategory();
-        $subCategory->setLabel('Jupes');
-        $subCategory->setCategory($category);
-        $manager->persist($subCategory);
+            $babySizes[] = $size;
 
-        $subCategory = new SubCategory();
-        $subCategory->setLabel('Robes');
-        $subCategory->setCategory($category);
-        $manager->persist($subCategory);
+            $manager->persist($size);
+        }
 
-        // #################### Categorie Garçons #################################
-        $category = new Category();
-        $category->setLabel('Garçons');
-        $manager->persist($category);
+        foreach (self::CATEGORIES_DATA as $key => $categoryData) {
+            $category = new Category();
+            $category->setLabel($categoryData['label']);
 
-        // ##################### SubCatégoires ##################################
-        $subCategory = new SubCategory();
-        $subCategory->setLabel('Pantalon');
-        $subCategory->setCategory($category);
-        $manager->persist($subCategory);
+            $manager->persist($category);
 
-        $subCategory = new SubCategory();
-        $subCategory->setLabel('T-shirt');
-        $subCategory->setCategory($category);
-        $manager->persist($subCategory);
+            foreach ($categoryData['subCategories'] as $subCategoryData) {
+                $subCategory = new SubCategory();
+                $subCategory->setLabel($subCategoryData)
+                    ->setCategory($category);
 
-        $subCategory = new SubCategory();
-        $subCategory->setLabel('Pulls');
-        $subCategory->setCategory($category);
-        $manager->persist($subCategory);
+                $manager->persist($subCategory);
 
-        $subCategory = new SubCategory();
-        $subCategory->setLabel('Vestes');
-        $subCategory->setCategory($category);
-        $manager->persist($subCategory);
+                for ($i = 0; $i < mt_rand(10, 50); $i++) {
+                    $product = new Product();
+                    $product->setLabel($faker->sentence(3))
+                        ->setPrice($faker->randomFloat(2, 1.99, 20))
+                        ->setDescription($faker->paragraph)
+                        ->setIsOnline(true)
+                        ->setSubCategory($subCategory);
 
-        // #################### Categorie Bébé Fille #################################
-        $category = new Category();
-        $category->setLabel('Bébés Filles');
-        $manager->persist($category);
+                    $discountCondition = mt_rand(0, 10);
 
-        // ##################### SubCatégoires ##################################
-        $subCategory = new SubCategory();
-        $subCategory->setLabel('Pantalon');
-        $subCategory->setCategory($category);
-        $manager->persist($subCategory);
+                    if ($discountCondition < 2) {
+                        $product->setDiscount(mt_rand(10, 75));
+                    }
 
-        $subCategory = new SubCategory();
-        $subCategory->setLabel('T-shirt');
-        $subCategory->setCategory($category);
-        $manager->persist($subCategory);
+                    $manager->persist($product);
 
-        $subCategory = new SubCategory();
-        $subCategory->setLabel('Pulls');
-        $subCategory->setCategory($category);
-        $manager->persist($subCategory);
+                    for ($j = 0; $j < mt_rand(1,5); $j++) {
+                        $image = new Image();
+                        $image
+                            ->setLabel('immage'.$i)
+                            ->setLink('http://placehold.it/250x400')
+                            ->setProduct($product);
 
-        $subCategory = new SubCategory();
-        $subCategory->setLabel('Vestes');
-        $subCategory->setCategory($category);
-        $manager->persist($subCategory);
+                        $manager->persist($image);
 
-        $subCategory = new SubCategory();
-        $subCategory->setLabel('Jupes');
-        $subCategory->setCategory($category);
-        $manager->persist($subCategory);
+                    }
 
-        $subCategory = new SubCategory();
-        $subCategory->setLabel('Robes');
-        $subCategory->setCategory($category);
-        $manager->persist($subCategory);
+                    $sizes = [];
 
-        $subCategory = new SubCategory();
-        $subCategory->setLabel('Bodies');
-        $subCategory->setCategory($category);
-        $manager->persist($subCategory);
+                    if ($key < 2) {
+                        $sizes = $childSizes;
+                    } else {
+                        $sizes = $babySizes;
+                    }
 
-        // #################### Categorie Bébé Garçons #################################
-        $category = new Category();
-        $category->setLabel('Bébé Garçons');
-        $manager->persist($category);
-
-        // ##################### SubCatégoires ##################################
-        $subCategory = new SubCategory();
-        $subCategory->setLabel('Pantalon');
-        $subCategory->setCategory($category);
-        $manager->persist($subCategory);
-
-        $subCategory = new SubCategory();
-        $subCategory->setLabel('T-shirt');
-        $subCategory->setCategory($category);
-        $manager->persist($subCategory);
-
-        $subCategory = new SubCategory();
-        $subCategory->setLabel('Pulls');
-        $subCategory->setCategory($category);
-        $manager->persist($subCategory);
-
-        $subCategory = new SubCategory();
-        $subCategory->setLabel('Vestes');
-        $subCategory->setCategory($category);
-        $manager->persist($subCategory);
-
-        $subCategory = new SubCategory();
-        $subCategory->setLabel('Bodies');
-        $subCategory->setCategory($category);
-        $manager->persist($subCategory);
-
-        $size = new Size();
-        $size->setLabel('2-3 mois');
-        $manager->persist($size);
-
-        for ($i = 0; $i<30; $i++ ){
-            $product = new Product();
-            $product
-                ->setIsOnline(true)
-                ->setLabel('body bleu')
-                ->setDescription('Joli body bleu')
-                ->setPrice(10.0)
-                ->setSubCategory($subCategory)
-            ;
-            $manager->persist($product);
-
-            for ($j = 0; $j < mt_rand(1,5); $j++) {
-                $image = new Image();
-                $image
-                    ->setLabel('immage'.$i)
-                    ->setLink('http://placehold.it/250x400')
-                    ->setProduct($product);
-
-                $manager->persist($image);
-
+                    foreach ($sizes as $size) {
+                        $reference = new Reference();
+                        $reference->setSize($size)
+                            ->setProduct($product)
+                            ->setStock(mt_rand(0,20));
+                        $manager->persist($reference);
+                    }
+                }
             }
-            $reference = new Reference();
-            $reference
-                ->setProduct($product)
-                ->setSize($size)
-                ->setStock(10)
-            ;
-            $manager->persist($reference);
+        }
+
+        for ($i = 0; $i < mt_rand(1,5); $i++) {
+            $banner = new Banner();
+            $banner->setLabel($faker->unique()->word)
+                ->setDescription($faker->sentence)
+                ->setLink("https://via.placeholder.com/468x60?text=468x60+Full +Banner");
+            $manager->persist($banner);
         }
 
 //
