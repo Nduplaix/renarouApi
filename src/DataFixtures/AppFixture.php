@@ -172,7 +172,7 @@ class AppFixture extends Fixture
             $banner = new Banner();
             $banner->setLabel($faker->unique()->word)
                 ->setDescription($faker->sentence)
-                ->setLink("https://via.placeholder.com/468x60?text=468x60+Full +Banner");
+                ->setLink("https://via.placeholder.com/468x500?text=468x60+Full +Banner");
             $manager->persist($banner);
         }
 

@@ -4,6 +4,7 @@
 namespace App\EventListener;
 
 
+use App\Entity\BasketLine;
 use App\Entity\Category;
 use App\Entity\Product;
 use App\Entity\SubCategory;
@@ -19,10 +20,26 @@ class DoctrineListener
         $this->em = $em;
     }
 
+    public function postUpdate(LifecycleEventArgs $args)
+    {
+        $result = $args->getObject();
+        if ($result instanceof BasketLine) {
+            $this->em->flush();
+        }
+    }
+
+    public function postRemove(LifecycleEventArgs $args)
+    {
+        $result = $args->getObject();
+        if ($result instanceof BasketLine) {
+            $this->em->flush();
+        }
+    }
+
     public function postPersist(LifecycleEventArgs $args)
     {
         $result = $args->getObject();
-        if ($result instanceof Product || $result instanceof Category || $result instanceof SubCategory) {
+        if ($result instanceof Product || $result instanceof Category || $result instanceof SubCategory || $result instanceof BasketLine) {
             $this->em->flush();
         }
     }

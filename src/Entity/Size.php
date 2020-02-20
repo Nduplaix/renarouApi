@@ -23,7 +23,7 @@ class Size
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"product"})
+     * @Groups({"products", "getUser"})
      */
     private $label;
 

@@ -31,13 +31,13 @@ class SubCategory
     /**
      * @ORM\Column(type="string", length=255)
      *
-     * @Groups({"categories", "product"})
+     * @Groups({"categories", "product", "getUser" })
      */
     private $label;
 
     /**
      * @ORM\Column(type="string", length=255, unique=true, nullable=true)
-     * @Groups({"categories", "product"})
+     * @Groups({"categories", "product", "getUser"})
      * @Assert\Unique()
      */
     private $slug;
@@ -45,7 +45,7 @@ class SubCategory
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="subCategories")
      * @ORM\JoinColumn(nullable=false)
-     * @Groups({"product"})
+     * @Groups({"product", "getUser"})
      */
     private $category;
 

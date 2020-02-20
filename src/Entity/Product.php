@@ -28,13 +28,13 @@ class Product
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"products"})
+     * @Groups({"products", "getUser"})
      */
     private $label;
 
     /**
      * @ORM\Column(type="float")
-     * @Groups({"products"})
+     * @Groups({"products", "getUser"})
      */
     private $price;
 
@@ -46,26 +46,26 @@ class Product
 
     /**
      * @ORM\Column(type="float", nullable=true)
-     * @Groups({"products"})
+     * @Groups({"products", "getUser"})
      */
     private $discount;
 
     /**
      * @ORM\Column(type="boolean")
-     * @Groups({"products"})
+     * @Groups({"products", "getUser"})
      */
     private $isOnline;
 
     /**
      * @ORM\Column(type="datetime")
-     * @Groups({"products"})
+     * @Groups({"products", "getUser"})
      */
     private $createdAt;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\SubCategory", inversedBy="products")
      * @ORM\JoinColumn(nullable=false)
-     * @Groups({"product"})
+     * @Groups({"product", "getUser"})
      */
     private $subCategory;
 
@@ -77,13 +77,13 @@ class Product
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="product", orphanRemoval=true)
-     * @Groups({"products"})
+     * @Groups({"products", "getUser"})
      */
     private $images;
 
     /**
      * @ORM\Column(type="string", length=255, unique=true, nullable=true)
-     * @Groups({"products"})
+     * @Groups({"products", "getUser"})
      */
     private $slug;
 
