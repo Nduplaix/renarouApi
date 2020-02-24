@@ -10,13 +10,14 @@ easy_admin:
           - 'stock'
           - { property: 'size', label: 'Taille' }
           - { property: 'product', label: 'Produit' }
-        show:
-          fields:
-            - 'stock'
-            - { property: 'size', label: 'Taille' }
-            - { property: 'product', label: 'Produit' }
-        form:
-          fields:
-            - 'stock'
-            - { property: 'size', label: 'Taille' }
-            - { property: 'product', label: 'Produit' }
+      show:
+        fields:
+          - 'stock'
+          - { property: 'size', label: 'Taille' }
+          - { property: 'product', label: 'Produit' }
+          - { property: 'image', label: 'Image', type: 'image' }
+      form:
+        fields:
+          - 'stock'
+          - { property: 'size', label: 'Taille' }
+          - { property: 'product', label: 'Produit' }

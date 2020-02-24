@@ -202,4 +202,16 @@ class CommandeLine
 
         return $this;
     }
+
+    /**
+     * return the first product's image
+     */
+    public function getImage() {
+        return $this->getReference()->getImage();
+    }
+
+    public function __toString()
+    {
+        return sprintf("%s - %s - x %s", $this->getRefLabel(), $this->getRefSize(), $this->getQuantity());
+    }
 }

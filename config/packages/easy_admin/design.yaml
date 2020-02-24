@@ -1,4 +1,8 @@
 easy_admin:
+  formats:
+    date:     'd/m/y'
+    time:     'H:i'
+    datetime: 'd/m/y H:i'
   site_name: "Renarou"
   design:
     brand_color: '#FF7400'
@@ -21,3 +25,4 @@ easy_admin:
           { entity: 'Address', label: 'Adresses' },
         ]
       - { entity: 'Banner', label: 'Bannières' }
+      - { entity: 'Commande', label: 'Commandes' }

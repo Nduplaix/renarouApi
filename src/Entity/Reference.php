@@ -99,11 +99,6 @@ class Reference
         return $this;
     }
 
-    public function __toString()
-    {
-        return $this->product->getLabel() . ' - ' . $this->size->getLabel();
-    }
-
     /**
      * @return Collection|BasketLine[]
      */
@@ -164,5 +159,18 @@ class Reference
         }
 
         return $this;
+    }
+
+    /**
+     * get the first product's image
+     * @return mixed
+     */
+    public function getImage() {
+        return $this->getProduct()->getImages()->first()->getLink();
+    }
+
+    public function __toString()
+    {
+        return $this->product->getLabel() . ' - ' . $this->size->getLabel();
     }
 }

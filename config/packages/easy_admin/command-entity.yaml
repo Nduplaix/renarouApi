@@ -1,0 +1,32 @@
+easy_admin:
+  entities:
+    Commande:
+      class: App\Entity\Commande
+      list:
+        title: 'Liste des commandes'
+        actions: ['show', '-new']
+        filters: [ 'delivery', 'status' ]
+        fields:
+          - 'id'
+          - { property: 'user', label: 'Utilisateur' }
+          - { property: 'createdAt', label: "date de la commande" }
+          - { property: 'updatedAt', label: "date de mise à jour" }
+          - { property: 'delivery', label: 'mode de livraison' }
+          - 'status'
+          - { property: 'priceWithDiscount', label: 'Prix total'}
+          - { property: 'productCount', label: 'Nombre de produits' }
+      show:
+        max_results: 100
+        fields:
+          - 'id'
+          - { property: 'commandeLines', label: 'articles' }
+          - { property: 'createdAt', label: "date de la commande" }
+          - { property: 'updatedAt', label: "date de mise à jour" }
+          - { property: 'delivery', label: 'mode de livraison' }
+          - 'status'
+          - { property: 'priceWithDiscount', label: 'Prix total'}
+          - { property: 'user', label: 'Utilisateur' }
+          - { property: 'productCount', label: 'Nombre de produits' }
+      form:
+        fields:
+          - 'status'

@@ -1,0 +1,48 @@
+Merci pour votre commande!
+
+Bonjour {{ commande.user.firstname }},
+Vous avez passé commande sur le site <a href="{{ app.request.getSchemeAndHttpHost() }}">Renarou</a> et nous vous en remercions.
+Voici un récapitulatif de votre commande :
+
+
+
+
+            Nom de l'article
+            Taille
+            Quantité
+            Prix unitaire
+            {% if commande.totalDiscount > 0 %}
+                Promo
+            {% endif %}
+            Prix total
+
+
+
+        {% for line in commande.commandeLines %}
+
+                {{ line.refLabel }}
+                {{ line.refSize }}
+                {{ line.quantity }}
+                {{ line.refPrice }}
+                {% if commande.totalDiscount > 0 %}
+                    {{ line.refDiscount }}
+                {% endif %}
+                {{ line.priceWithDiscount }}
+
+        {% endfor %}
+        {% if commande.totalDiscount > 0 %}
+
+                <th colspan="3">réduction sur la commande
+                <th colspan="2">{{ commande.totalDiscount }}
+
+
+                <th colspan="3">Prix total
+                <th colspan="2">{{ commande.priceWithDiscount }}
+
+        {% else %}
+
+                <th colspan="2">Prix total
+                <th colspan="2">{{ commande.priceWithDiscount }}
+
+        {% endif %}
+N'hésitez pas à nous donner votre avis et celui de votre bout de chou

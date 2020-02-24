@@ -1,0 +1,16 @@
+easy_admin:
+  entities:
+    CommandeLine:
+      class: App\Entity\CommandeLine
+      show:
+        fields:
+          - 'id'
+          - 'reference'
+          - { property: 'refLabel', label: "nom de l'article" }
+          - { property: 'refPrice', label: "Prix de l'article" }
+          - { property: 'refSize', label: "Taille" }
+          - { property: 'refDiscount', label: "Promo sur l'article" }
+          - { property: 'quantity', label: 'Quantité' }
+          - { property: 'priceWithDiscount', label: 'Prix total' }
+          - { property: 'image', label: 'Image', type: 'image' }
+          - { property: 'commande', label: 'Commande' }
