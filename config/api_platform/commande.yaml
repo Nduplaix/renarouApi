@@ -1,0 +1,18 @@
+App\Entity\Commande:
+  collectionOperations:
+    create_commande:
+      method: 'POST'
+      path: '/create-commande'
+      controller: 'App\Controller\Commandes\CreateCommande'
+      security: 'is_granted("ROLE_USER")'
+      normalization_context:
+        groups: ['getUser']
+      formats:
+        0: 'json'
+  itemOperations:
+    get:
+      security: 'is_granted("ROLE_USER") and object.getUser().getId() == user.getId()'
+      normalization_context:
+        groups: ['getUser']
+      formats:
+        0: 'json'
