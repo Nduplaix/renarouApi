@@ -1,0 +1,86 @@
+{% apply inline_css %}
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+        td, th {
+            padding: 10px;
+        }
+        .btn {
+            background-color: #F07B35;
+            color: #fff;
+            font-size: 1rem;
+            padding: 10px;
+        }
+        img {
+            max-height: 100px;
+        }
+        .header {
+            color: #F07B35;
+        }
+    </style>
+
+    <div class="header">
+        <h1>Renarou</h1>
+    </div>
+    <h1>Facture</h1>
+
+    <p>Bonjour {{ commande.user.firstname }},</p>
+    <p>Vous avez passé commande sur le site Renarou.fr et nous vous en remercions.</p>
+    <p>Voici un récapitulatif de votre commande :</p>
+    <p>commande n°{{ commande.id }} passée le {{ commande.createdAt|date('d/m/Y') }}</p>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Nom de l'article</th>
+            <th>Taille</th>
+            <th>Quantité</th>
+            <th>Prix unitaire</th>
+            {% if commande.totalDiscount > 0 %}
+                <th>Promo</th>
+            {% endif %}
+            <th>Prix total</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for line in commande.commandeLines %}
+            <tr>
+                <th>{{ line.refLabel }}</th>
+                <th>{{ line.refSize }}</th>
+                <th>{{ line.quantity }}</th>
+                <th>{{ line.refPrice ~ '€' }}</th>
+                {% if commande.totalDiscount > 0 %}
+                    <th>{{ line.refDiscount ~ '%' }}</th>
+                {% endif %}
+                <th>{{ line.priceWithDiscount ~ '€' }}</th>
+            </tr>
+        {% endfor %}
+        {% if commande.totalDiscount > 0 %}
+            <tr>
+                <td colspan="2"></td>
+                <td colspan="2">réduction sur la commande</td>
+                <td colspan="2">{{ commande.totalDiscount ~ '€' }}</td>
+            </tr>
+            <tr>
+                <td colspan="2"></td>
+                <td colspan="2">Prix total</td>
+                <td colspan="2">{{ commande.priceWithDiscount ~ '€' }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="1"></td>
+                <td colspan="2">Prix total</td>
+                <td colspan="2">{{ commande.priceWithDiscount ~ '€' }}</td>
+            </tr>
+        {% endif %}
+        </tbody>
+    </table>
+
+    <p>Vous pouvez retrouvé un récapitulatif sur notre site internet.</p>
+    <p>N'hésitez pas à nous donner votre avis et celui de votre bout de chou.</p>
+{% endapply %}

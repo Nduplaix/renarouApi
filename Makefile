@@ -49,6 +49,7 @@ open:
 ##
 
 db: configure vendor                                        ## Reset the database and load fixtures
+	rm -rf ublic/uploads/pdf/* public/uploads/images/*
 #	@$(EXEC_PHP) php docker/php/wait-database.php
 	$(SYMFONY) doctrine:database:drop --if-exists --force
 	$(SYMFONY) doctrine:database:create --if-not-exists
