@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -51,10 +53,26 @@ class Address
     private $postalCode;
 
     /**
+     * @var string
+     * @Groups({"getUser"})
+     */
+    private $fullAddress;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="addresses")
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Commande", mappedBy="address")
+     */
+    private $commandes;
+
+    public function __construct()
+    {
+        $this->commandes = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -133,8 +151,44 @@ class Address
         return $this;
     }
 
+    public function getFullAddress()
+    {
+        return $this->number. ' ' .$this->streetType. ' ' .$this->street. ', ' .$this->postalCode. ' ' . $this->city;
+    }
+
     public function __toString()
     {
         return $this->number. ' ' .$this->streetType. ' ' .$this->street. ', ' .$this->postalCode. ' ' . $this->city;
+    }
+
+    /**
+     * @return Collection|Commande[]
+     */
+    public function getCommandes(): Collection
+    {
+        return $this->commandes;
+    }
+
+    public function addCommande(Commande $commande): self
+    {
+        if (!$this->commandes->contains($commande)) {
+            $this->commandes[] = $commande;
+            $commande->setAddress($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommande(Commande $commande): self
+    {
+        if ($this->commandes->contains($commande)) {
+            $this->commandes->removeElement($commande);
+            // set the owning side to null (unless already changed)
+            if ($commande->getAddress() === $this) {
+                $commande->setAddress(null);
+            }
+        }
+
+        return $this;
     }
 }

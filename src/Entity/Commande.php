@@ -85,6 +85,12 @@ class Commande
      */
     private $status;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Address", inversedBy="commandes")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $address;
+
     public function __construct()
     {
         $this->commandeLines = new ArrayCollection();
@@ -263,6 +269,18 @@ class Commande
     public function setStatus(?CommandeStatus $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getAddress(): ?Address
+    {
+        return $this->address;
+    }
+
+    public function setAddress(?Address $address): self
+    {
+        $this->address = $address;
 
         return $this;
     }

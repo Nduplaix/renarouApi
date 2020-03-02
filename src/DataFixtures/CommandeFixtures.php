@@ -11,6 +11,7 @@ use Doctrine\Persistence\ObjectManager;
 class CommandeFixtures extends Fixture
 {
     const STATUS = [
+        "Non payé",
         "En cours de préparation",
         "Prête à être expédié",
         "Expédié",

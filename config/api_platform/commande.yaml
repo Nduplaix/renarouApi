@@ -16,3 +16,9 @@ App\Entity\Commande:
         groups: ['getUser']
       formats:
         0: 'json'
+    patch:
+      security: 'is_granted("ROLE_USER") and object.getUser().getId() == user.getId()'
+      normalization_context:
+        groups: ['getUser']
+      formats:
+        0: 'json'

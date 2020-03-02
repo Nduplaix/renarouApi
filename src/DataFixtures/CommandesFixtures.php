@@ -26,7 +26,8 @@ class CommandesFixtures extends Fixture implements DependentFixtureInterface
         $commande = new Commande();
         $commande->setUser($user)
             ->setStatus($status)
-            ->setDelivery($delivery);
+            ->setDelivery($delivery)
+            ->setAddress($user->getAddresses()->first());
 
         foreach ($refs as $ref) {
             $commandeLine = new CommandeLine();
