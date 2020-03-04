@@ -1,4 +1,4 @@
-FROM php:7.4.1-fpm-alpine3.11
+FROM php:7.3.12-fpm-alpine3.10
 
 ENV APCU_VERSION 5.1.18
 ENV XDEBUG_VERSION 2.9.0

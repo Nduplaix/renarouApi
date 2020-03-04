@@ -82,7 +82,7 @@ class Product
     private $images;
 
     /**
-     * @ORM\Column(type="string", length=255, unique=true, nullable=true)
+     * @ORM\Column(type="string", length=191, unique=true, nullable=true)
      * @Groups({"products", "getUser"})
      */
     private $slug;
