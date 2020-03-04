@@ -19,8 +19,14 @@ class CommandeFixtures extends Fixture
     ];
 
     const DELIVRY = [
-        "Livraison",
-        "Click and Collect"
+        [
+            "label" => "Livraison",
+            "price" => "4.99",
+        ],
+        [
+            "label" => "Click and Collect",
+            "price" => "0"
+        ]
     ];
 
     public function load(ObjectManager $manager)
@@ -33,7 +39,8 @@ class CommandeFixtures extends Fixture
 
         foreach (self::DELIVRY as $delivery) {
             $data = new Delivery();
-            $data->setLabel($delivery)
+            $data->setLabel($delivery["label"])
+                ->setShippingPrice($delivery["price"])
                 ->setIsActive(true);
             $manager->persist($data);
         }

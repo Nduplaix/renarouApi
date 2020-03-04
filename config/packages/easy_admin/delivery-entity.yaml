@@ -1,0 +1,20 @@
+easy_admin:
+  entities:
+    Delivery:
+      class: App\Entity\Delivery
+      list:
+        title: 'Liste des modes de livraisons'
+        actions: ['show']
+        fields:
+          - 'id'
+          - { property: 'label', label: "Nom" }
+          - { property: 'shippingPrice', label: 'frais de port' }
+      show:
+        fields:
+          - 'id'
+          - { property: 'label', label: "Nom" }
+          - { property: 'shippingPrice', label: 'frais de port' }
+      form:
+        fields:
+          - { property: 'label', label: "Nom" }
+          - { property: 'shippingPrice', label: 'frais de port' }

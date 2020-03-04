@@ -42,6 +42,12 @@ class Delivery
      */
     private $commandes;
 
+    /**
+     * @ORM\Column(type="float")
+     * @Groups({"getUser"})
+     */
+    private $shippingPrice;
+
     public function __construct()
     {
         $this->commandes = new ArrayCollection();
@@ -110,5 +116,17 @@ class Delivery
     public function __toString()
     {
         return $this->getLabel();
+    }
+
+    public function getShippingPrice(): ?float
+    {
+        return $this->shippingPrice;
+    }
+
+    public function setShippingPrice(float $shippingPrice): self
+    {
+        $this->shippingPrice = $shippingPrice;
+
+        return $this;
     }
 }

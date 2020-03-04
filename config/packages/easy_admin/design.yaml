@@ -25,4 +25,8 @@ easy_admin:
           { entity: 'Address', label: 'Adresses' },
         ]
       - { entity: 'Banner', label: 'Bannières' }
-      - { entity: 'Commande', label: 'Commandes' }
+      - label: 'Commandes'
+        children: [
+          { entity: 'Commande', label: 'Commandes' },
+          { entity: 'Delivery', label: 'Mode de livraison' },
+        ]

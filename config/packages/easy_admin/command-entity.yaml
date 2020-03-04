@@ -27,6 +27,7 @@ easy_admin:
           - { property: 'priceWithDiscount', label: 'Prix total'}
           - { property: 'user', label: 'Utilisateur' }
           - { property: 'productCount', label: 'Nombre de produits' }
+          - { property: 'address', label: 'Adresse de livraison' }
       form:
         fields:
           - 'status'

@@ -105,7 +105,7 @@ class Commande
         $this->setCreatedAt($today)
             ->setUpdatedAt($today);
 
-        $price = 0;
+        $price = $this->getDelivery()->getShippingPrice();
         $count = 0;
         $discount = 0;
 
