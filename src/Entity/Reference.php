@@ -47,9 +47,15 @@ class Reference
      */
     private $basketLines;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\CommandeLine", mappedBy="reference")
+     */
+    private $commandeLines;
+
     public function __construct()
     {
         $this->basketLines = new ArrayCollection();
+        $this->commandeLines = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -93,11 +99,6 @@ class Reference
         return $this;
     }
 
-    public function __toString()
-    {
-        return $this->product->getLabel() . ' - ' . $this->size->getLabel();
-    }
-
     /**
      * @return Collection|BasketLine[]
      */
@@ -127,5 +128,49 @@ class Reference
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection|CommandeLine[]
+     */
+    public function getCommandeLines(): Collection
+    {
+        return $this->commandeLines;
+    }
+
+    public function addCommandeLine(CommandeLine $commandeLine): self
+    {
+        if (!$this->commandeLines->contains($commandeLine)) {
+            $this->commandeLines[] = $commandeLine;
+            $commandeLine->setReference($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommandeLine(CommandeLine $commandeLine): self
+    {
+        if ($this->commandeLines->contains($commandeLine)) {
+            $this->commandeLines->removeElement($commandeLine);
+            // set the owning side to null (unless already changed)
+            if ($commandeLine->getReference() === $this) {
+                $commandeLine->setReference(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * get the first product's image
+     * @return mixed
+     */
+    public function getImage() {
+        return $this->getProduct()->getImages()->first()->getLink();
+    }
+
+    public function __toString()
+    {
+        return $this->product->getLabel() . ' - ' . $this->size->getLabel();
     }
 }

@@ -1,0 +1,6 @@
+<h1>Il y a une nouvelle commande!</h1>
+
+<p>Commande n° {{ command.id }}</p>
+<p>Prix total de la commande {{ command.priceWithDiscount }}</p>
+<p>La commande a été passé le {{ command.createdAt|date("m/d/Y") }}</p>
+<p><a href="{{ app.request.getSchemeAndHttpHost() ~ '/admin/?action=show&entity=Commande&id=' ~ command.id }}">Aller voir la commande</a></p>
