@@ -34,7 +34,7 @@ class Category
     private $label;
 
     /**
-     * @ORM\Column(type="string", length=255, unique=true, nullable=true)
+     * @ORM\Column(type="string", length=191, unique=true, nullable=true)
      * @Groups({"categories", "product", "getUser"})
      * @Assert\Unique()
      */
