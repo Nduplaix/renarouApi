@@ -9,12 +9,15 @@ easy_admin:
           - 'id'
           - { property: 'label', label: "Nom" }
           - { property: 'shippingPrice', label: 'frais de port' }
+          - { property: 'isActive', label: 'Activé' }
       show:
         fields:
           - 'id'
           - { property: 'label', label: "Nom" }
           - { property: 'shippingPrice', label: 'frais de port' }
+          - { property: 'isActive', label: 'Activé' }
       form:
         fields:
           - { property: 'label', label: "Nom" }
           - { property: 'shippingPrice', label: 'frais de port' }
+          - { property: 'isActive', label: 'Activé' }
