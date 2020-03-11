@@ -86,6 +86,7 @@ class User implements UserInterface
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Commande", mappedBy="user", orphanRemoval=true)
+     * @Groups({"getUser"})
      */
     private $commandes;
 

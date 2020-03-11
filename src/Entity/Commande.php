@@ -113,7 +113,7 @@ class Commande
             $price += $line->getPrice();
             $count += $line->getQuantity();
             $lineProduct = $line->getReference()->getProduct();
-            $discount += $lineProduct->getDiscount() * $lineProduct->getPrice() / 100;
+            $discount += number_format($lineProduct->getDiscount() * $lineProduct->getPrice() / 100 , 2);
         }
 
         $this->setPrice($price)

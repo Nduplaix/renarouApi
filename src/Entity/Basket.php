@@ -180,4 +180,9 @@ class Basket
 
         return $this;
     }
+
+    public function clearBasket()
+    {
+        $this->basketLines = new ArrayCollection();
+    }
 }

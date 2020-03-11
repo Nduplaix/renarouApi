@@ -46,10 +46,11 @@ class CreateCommande extends AbstractController
                     );
                 }
 
-                $manager->remove($line);
                 $manager->persist($commandeLine);
             }
             $manager->persist($data);
+            $basket->clearBasket();
+            $manager->persist($basket);
             $manager->flush();
 
             $adminMessage = (new \Swift_Message(sprintf('[%s] - NOUVELLE COMMANDE', $data->getDelivery()->getLabel())))
