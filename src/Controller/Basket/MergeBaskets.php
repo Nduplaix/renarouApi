@@ -29,7 +29,10 @@ class MergeBaskets extends AbstractController
             $isInside = false;
 
             foreach ($currentBasket->getBasketLines() as $basketLine) {
-                if ($basketLine->getReference()->getId() === $line['reference']['id']) {
+                if (
+                    $basketLine->getReference()->getId() === $line['reference']['id']
+                    && $basketLine->getReference()->getStock() > 0
+                ) {
                     $basketLine->setQuantity($basketLine->getQuantity() + $line['quantity']);
 
                     if ($basketLine->getQuantity() > $basketLine->getReference()->getStock()) {
@@ -38,11 +41,13 @@ class MergeBaskets extends AbstractController
 
                     $isInside = true;
                 }
+
             }
 
-            if (!$isInside) {
+            $reference = $em->getRepository(Reference::class)->find($line['reference']['id']);
+
+            if (!$isInside && $reference->getStock() > 0) {
                 $newLine = new BasketLine();
-                $reference = $em->getRepository(Reference::class)->find($line['reference']['id']);
                 $newLine->setQuantity($line['quantity'])
                     ->setReference($reference)
                     ->setBasket($currentBasket);
