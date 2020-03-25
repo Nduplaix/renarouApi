@@ -69,6 +69,12 @@ class Address
      */
     private $commandes;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     * @Groups({"getUser"})
+     */
+    private $complement;
+
     public function __construct()
     {
         $this->commandes = new ArrayCollection();
@@ -153,12 +159,31 @@ class Address
 
     public function getFullAddress()
     {
-        return $this->number. ' ' .$this->streetType. ' ' .$this->street. ', ' .$this->postalCode. ' ' . $this->city;
+        if (null !== $this->getComplement()) {
+            return sprintf(
+                '%s %s %s, %s, %s %s',
+                $this->getNumber(),
+                $this->getStreetType(),
+                $this->getStreet(),
+                $this->getComplement(),
+                $this->getPostalCode(),
+                $this->getCity()
+            );
+        }
+
+        return sprintf(
+            '%s %s %s, %s %s',
+            $this->getNumber(),
+            $this->getStreetType(),
+            $this->getStreet(),
+            $this->getPostalCode(),
+            $this->getCity()
+        );
     }
 
     public function __toString()
     {
-        return $this->number. ' ' .$this->streetType. ' ' .$this->street. ', ' .$this->postalCode. ' ' . $this->city;
+        return $this->getFullAddress();
     }
 
     /**
@@ -188,6 +213,18 @@ class Address
                 $commande->setAddress(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getComplement(): ?string
+    {
+        return $this->complement;
+    }
+
+    public function setComplement(?string $complement): self
+    {
+        $this->complement = $complement;
 
         return $this;
     }
