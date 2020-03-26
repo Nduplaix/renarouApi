@@ -10,6 +10,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * @Route("/api")
@@ -67,7 +69,7 @@ class UserController extends AbstractController
 
         $mailer->send($message);
 
-        return new JsonResponse();
+        return new JsonResponse('email send');
     }
 
     /**
@@ -121,4 +123,139 @@ class UserController extends AbstractController
 
         return new JsonResponse('Activated');
     }
+
+    /**
+     * @Route("/send-reset-password", name="send_reset_password_email")
+     *
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @param \Swift_Mailer $mailer
+     * @return JsonResponse
+     */
+    public function sendResetPasswordMail(Request $request, EntityManagerInterface $manager, \Swift_Mailer $mailer)
+    {
+        $requestContent = json_decode($request->getContent());
+        $email = $requestContent->email;
+
+        if (null === $email) {
+            return new JsonResponse(
+                [
+                    "code" => "401",
+                    "message" => "Aucune adresse e-mail renseignée."
+                ],
+                401
+            );
+        }
+
+        $user = $manager->getRepository(User::class)->findOneBy(['email' => $email]);
+
+        if (null === $user) {
+            return new JsonResponse(
+                [
+                    "code" => "401",
+                    "message" => "Cette adresse E-mail ne correspond à aucun comptes."
+                ],
+                401
+            );
+        }
+
+        $user->generateToken();
+        $manager->flush();
+
+        $message = (new \Swift_Message("Réinitialisation de votre mot de passe Renarou"))
+            ->setFrom($this->getParameter('email'))
+            ->setTo($user->getEmail())
+            ->setBody(
+                $this->renderView(
+                    'emails/reset_password.html.twig',
+                    [
+                        'user' => $user,
+                        'email' => $this->getParameter('admin_email')
+                    ]
+                ),
+                'text/html'
+            );
+
+        $mailer->send($message);
+
+        return new JsonResponse('email send');
+    }
+
+    /**
+     * @Route("/reset-password", name="reset_password")
+     *
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @param UserPasswordEncoderInterface $encoder
+     * @return JsonResponse
+     */
+    public function resetPassword(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder)
+    {
+        $requestContent = json_decode($request->getContent());
+        $token = $requestContent->token;
+        $plainPassword = $requestContent->password;
+        $confirmPassword = $requestContent->confirmPassword;
+
+        if (null === $plainPassword) {
+            return new JsonResponse(
+                [
+                    "code" => "401",
+                    "message" => "Aucun Mot de passe."
+                ],
+                401
+            );
+        }
+
+        if ($confirmPassword !== $plainPassword) {
+            return new JsonResponse(
+                [
+                    "code" => "401",
+                    "message" => "Les mots de passe doivent être identiques."
+                ],
+                401
+            );
+        }
+
+        if (strlen($plainPassword) < 6) {
+            return new JsonResponse(
+                [
+                    "code" => "401",
+                    "message" => "Le mot de passe doit être composé d'au moins 6 caractères"
+                ],
+                401
+            );
+        }
+
+        if (null === $token) {
+            return new JsonResponse(
+                [
+                    "code" => "401",
+                    "message" => "Aucun token détecté."
+                ],
+                401
+            );
+        }
+
+        $user = $manager->getRepository(User::class)->findOneBy(['token' => urldecode($token)]);
+
+        if (null === $user) {
+            return new JsonResponse(
+                [
+                    "code" => "401",
+                    "message" => "Ce token a expiré"
+                ],
+                401
+            );
+        }
+
+        $user->clearToken();
+        $passwordEncoded = $encoder->encodePassword($user, $plainPassword);
+
+        $user->setPassword($passwordEncoded);
+
+        $manager->flush();
+
+        return new JsonResponse('updated');
+    }
+
 }
