@@ -1,0 +1,9 @@
+<h1>Bienvenu sur le Site Renarou.fr !</h1>
+
+<p>Vous venez de vous inscrire sur <a href="{{ front_url }}">notre boutique</a> de vêtements pour enfant et nous vous en remercions.</p>
+<p>
+    Veuillez activer votre adresse e-mail en cliquant <a href="{{ front_url ~ '/activation?token=' ~ (user.token|url_encode) }}">ici</a>
+    afin de pouvoir passer commande
+</p>
+
+<p>Merci et à bientot sur <a href="{{ front_url }}"></a>Renarou.fr</p>

@@ -89,6 +89,7 @@ class UserFixtures extends Fixture
             ->setRoles($userData['roles'])
             ->setCreatedAt(new \DateTime())
             ->setUpdatedAt(new \DateTime())
+            ->setActivated(true)
         ;
 
         $password = $this->encoder->encodePassword($user, $userData['password']);

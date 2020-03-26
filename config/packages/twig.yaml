@@ -1,2 +1,4 @@
 twig:
     default_path: '%kernel.project_dir%/templates'
+    globals:
+     front_url: '%env(CORS_ALLOW_ORIGIN)%'

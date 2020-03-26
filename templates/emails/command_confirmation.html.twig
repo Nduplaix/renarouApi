@@ -24,7 +24,7 @@
     <h1>Merci pour votre commande!</h1>
 
     <p>Bonjour {{ commande.user.firstname }},</p>
-    <p>Vous avez passé commande sur le site <a href="{{ app.request.getSchemeAndHttpHost() }}">Renarou</a> et nous vous en remercions.</p>
+    <p>Vous avez passé commande sur le site <a href="{{ front_url }}">Renarou</a> et nous vous en remercions.</p>
     <p>Voici un récapitulatif de votre commande :</p>
 
     <table>
@@ -76,8 +76,8 @@
         </tbody>
     </table>
 
-    <p><a href="" class="btn">Voir ma commande</a></p>
+    <p><a href="{{ front_url ~ '/mon-profil/commande/' ~ commande.id }}" class="btn">Voir ma commande</a></p>
     <p>N'hésitez pas à nous donner votre avis et celui de votre bout de chou</p>
     <p>Vous pouvez nous retrouvé également sur les réseaux sociaux : lien-image </p>
-    <p><a href="{{ app.request.getSchemeAndHttpHost() }}">Voir la boutique</a></p>
+    <p><a href="{{ front_url }}">Voir la boutique</a></p>
 {% endapply %}

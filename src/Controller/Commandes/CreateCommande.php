@@ -18,6 +18,26 @@ class CreateCommande extends AbstractController
 {
     public function __invoke(Commande $data, EntityManagerInterface $manager, \Swift_Mailer $mailer)
     {
+        if (null === $this->getUser()) {
+            return new JsonResponse(
+                [
+                    "code" => "401",
+                    "message" => "Vous devez vous connecter pour passer une commande."
+                ],
+                401
+            );
+        }
+
+        if (!$this->getUser()->getActivated()) {
+            return new JsonResponse(
+                [
+                    "code" => "401",
+                    "message" => "Veuillez activer votre adresse Email pour passer commande."
+                ],
+                401
+            );
+        }
+
         $basket = $this->getUser()->getBasket();
 
         if ($basket instanceof Basket && sizeof($basket->getBasketLines()) !== 0) {

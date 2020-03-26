@@ -8,10 +8,11 @@ use App\Entity\User;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-class CreateUser
+class CreateUser extends UserController
 {
     /**
      * @var UserPasswordEncoderInterface
@@ -23,7 +24,7 @@ class CreateUser
         $this->encoder = $encoder;
     }
 
-    public function __invoke(User $data, EntityManagerInterface $manager)
+    public function __invoke(User $data, Request $request, EntityManagerInterface $manager, \Swift_Mailer $mailer)
     {
         $user = $manager->getRepository(User::class)->findOneBy(["email" => $data->getEmail()]);
 
@@ -44,6 +45,12 @@ class CreateUser
         $data->setPlainPassword(null);
         $manager->persist($data);
         $manager->flush();
+
+        $mailResponse = $this->sendActivationMail($data, $request, $manager, $mailer);
+
+        if ($mailResponse->getStatusCode() !== 200) {
+            return $mailResponse;
+        }
 
         return $data;
     }

@@ -90,6 +90,17 @@ class User implements UserInterface
      */
     private $commandes;
 
+    /**
+     * @ORM\Column(type="boolean")
+     * @Groups({"getUser"})
+     */
+    private $activated = false;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $token;
+
     public function __construct()
     {
         $this->addresses = new ArrayCollection();
@@ -358,6 +369,38 @@ class User implements UserInterface
             if ($commande->getUser() === $this) {
                 $commande->setUser(null);
             }
+        }
+
+        return $this;
+    }
+
+    public function getActivated(): ?bool
+    {
+        return $this->activated;
+    }
+
+    public function setActivated(bool $activated): self
+    {
+        $this->activated = $activated;
+
+        return $this;
+    }
+
+    public function getToken(): ?string
+    {
+        return $this->token;
+    }
+
+    public function clearToken()
+    {
+        $this->token = null;
+    }
+
+    public function generateToken(): self
+    {
+        try {
+            $this->token = random_bytes(50);
+        } catch (\Exception $e) {
         }
 
         return $this;
