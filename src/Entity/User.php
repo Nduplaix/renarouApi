@@ -396,12 +396,9 @@ class User implements UserInterface
         $this->token = null;
     }
 
-    public function generateToken(): self
+    public function setToken($token): self
     {
-        try {
-            $this->token = random_bytes(50);
-        } catch (\Exception $e) {
-        }
+        $this->token = $token;
 
         return $this;
     }
