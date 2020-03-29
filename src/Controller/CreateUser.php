@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 
 class CreateUser extends UserController
 {
@@ -24,12 +25,23 @@ class CreateUser extends UserController
         $this->encoder = $encoder;
     }
 
-    public function __invoke(User $data, Request $request, EntityManagerInterface $manager, \Swift_Mailer $mailer)
+    public function __invoke(
+        User $data,
+        Request $request,
+        EntityManagerInterface $manager,
+        \Swift_Mailer $mailer,
+        TokenGeneratorInterface $generator
+    )
     {
         $user = $manager->getRepository(User::class)->findOneBy(["email" => $data->getEmail()]);
 
         if ($user) {
-            return new JsonResponse(["message" => "Cette addresse email est déja utilisé", "code" => Response::HTTP_UNAUTHORIZED ], Response::HTTP_UNAUTHORIZED);
+            return new JsonResponse(
+                [
+                    "message" => "Cette addresse email est déja utilisé",
+                    "code" => Response::HTTP_UNAUTHORIZED
+                ],
+                Response::HTTP_UNAUTHORIZED);
         }
 
         $passwordEncoded = $this->encoder->encodePassword($data, $data->getPlainPassword());
@@ -46,7 +58,7 @@ class CreateUser extends UserController
         $manager->persist($data);
         $manager->flush();
 
-        $mailResponse = $this->sendActivationMail($data, $request, $manager, $mailer);
+        $mailResponse = $this->sendActivationMail($data, $request, $manager, $mailer, $generator);
 
         if ($mailResponse->getStatusCode() !== 200) {
             return $mailResponse;

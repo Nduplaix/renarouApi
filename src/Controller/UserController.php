@@ -10,8 +10,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 
 /**
  * @Route("/api")
@@ -26,9 +26,16 @@ class UserController extends AbstractController
      * @param Request $request
      * @param EntityManagerInterface $manager
      * @param \Swift_Mailer $mailer
+     * @param TokenGeneratorInterface $generator
      * @return bool|JsonResponse
      */
-    public function sendActivationMail(?User $user, Request $request, EntityManagerInterface $manager, \Swift_Mailer $mailer)
+    public function sendActivationMail(
+        ?User $user,
+        Request $request,
+        EntityManagerInterface $manager,
+        \Swift_Mailer $mailer,
+        TokenGeneratorInterface $generator
+    )
     {
         if (null === $user) {
             $requestContent = json_decode($request->getContent());
@@ -53,7 +60,9 @@ class UserController extends AbstractController
             }
         }
 
-        $user->generateToken();
+        $token = $generator->generateToken();
+
+        $user->setToken($token);
         $manager->flush();
 
         $message = (new \Swift_Message("Bienvenu sur le site Renarou!"))
@@ -130,9 +139,15 @@ class UserController extends AbstractController
      * @param Request $request
      * @param EntityManagerInterface $manager
      * @param \Swift_Mailer $mailer
+     * @param TokenGeneratorInterface $generator
      * @return JsonResponse
      */
-    public function sendResetPasswordMail(Request $request, EntityManagerInterface $manager, \Swift_Mailer $mailer)
+    public function sendResetPasswordMail(
+        Request $request,
+        EntityManagerInterface $manager,
+        \Swift_Mailer $mailer,
+        TokenGeneratorInterface $generator
+    )
     {
         $requestContent = json_decode($request->getContent());
         $email = $requestContent->email;
@@ -159,7 +174,9 @@ class UserController extends AbstractController
             );
         }
 
-        $user->generateToken();
+        $token = $generator->generateToken();
+
+        $user->setToken($token);
         $manager->flush();
 
         $message = (new \Swift_Message("Réinitialisation de votre mot de passe Renarou"))
@@ -189,7 +206,11 @@ class UserController extends AbstractController
      * @param UserPasswordEncoderInterface $encoder
      * @return JsonResponse
      */
-    public function resetPassword(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder)
+    public function resetPassword(
+        Request $request,
+        EntityManagerInterface $manager,
+        UserPasswordEncoderInterface $encoder
+    )
     {
         $requestContent = json_decode($request->getContent());
         $token = $requestContent->token;
