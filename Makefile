@@ -54,7 +54,7 @@ db: configure vendor                                        ## Reset the databas
 	$(SYMFONY) doctrine:database:drop --if-exists --force
 	$(SYMFONY) doctrine:database:create --if-not-exists
 	$(SYMFONY) doctrine:migrations:migrate --no-interaction --allow-no-migration
-#	$(SYMFONY) doctrine:fixtures:load --no-interaction --append
+	$(SYMFONY) doctrine:fixtures:load --no-interaction --append
 
 cc:                                                          ## Clear the cache in dev env
 	$(SYMFONY) cache:clear --no-warmup

@@ -63,7 +63,7 @@ class BasketLine
         $this->setTotalPrice($this->getReference()->getProduct()->getPrice() * $this->quantity);
 
         if ($discount || $discount > 0) {
-            $this->setTotalWithDiscount($this->getTotalPrice() - $this->getTotalPrice() * $discount / 100);
+            $this->setTotalWithDiscount($this->getTotalPrice() - round($this->getTotalPrice() * $discount) / 100);
         } else {
             $this->setTotalWithDiscount($this->getTotalPrice());
         }

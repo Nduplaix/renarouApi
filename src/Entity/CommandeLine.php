@@ -84,7 +84,7 @@ class CommandeLine
             ->setPrice($this->getRefPrice() * $this->getQuantity());
 
         if ($this->getRefDiscount() || $this->getRefDiscount() > 0) {
-            $this->setPriceWithDiscount($this->getPrice() - $this->getPrice() * $this->getRefDiscount() / 100);
+            $this->setPriceWithDiscount($this->getPrice() - round($this->getPrice() * $this->getRefDiscount()) / 100);
         } else {
             $this->setPriceWithDiscount($this->getPrice());
         }

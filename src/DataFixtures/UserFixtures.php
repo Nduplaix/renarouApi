@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Address;
+use App\Entity\DiscountCode;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -68,6 +69,16 @@ class UserFixtures extends Fixture
                 ->setUser($user);
             $manager->persist($address);
             $manager->persist($user);
+
+            if ($userData["reference"] === "nicolas-duplaix-user") {
+                $code = new DiscountCode();
+                $code->setAmount(25)
+                    ->setCode("USER")
+                    ->setExperationDate(new \DateTime("2030-01-01"))
+                    ->setUser($user)
+                    ->setIsPercent(true);
+                $manager->persist($code);
+            }
         }
 
         $manager->flush();

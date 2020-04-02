@@ -71,7 +71,7 @@ class Basket
             $price += $line->getTotalPrice();
             $count += $line->getQuantity();
             $lineProduct = $line->getReference()->getProduct();
-            $discount += $lineProduct->getDiscount() * $lineProduct->getPrice() / 100;
+            $discount += round($lineProduct->getDiscount() * $lineProduct->getPrice()) / 100;
         }
 
         $this->setPrice($price);
