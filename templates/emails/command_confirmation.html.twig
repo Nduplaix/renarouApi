@@ -56,6 +56,17 @@
                 </tr>
             {% endfor %}
             {% if commande.totalDiscount > 0 %}
+                {% if commande.discountCode %}
+                    <tr>
+                        <td colspan="3"></td>
+                        <td colspan="2">Code promo</td>
+                        {% if commande.discountCode.isPercent %}
+                            <td colspan="2">{{ commande.discountCode.amount ~ '%' }}</td>
+                        {% else %}
+                            <td colspan="2">{{ commande.discountCode.amount ~ '€' }}</td>
+                        {% endif %}
+                    </tr>
+                {% endif %}
                 <tr>
                     <td colspan="3"></td>
                     <td colspan="2">réduction sur la commande</td>
@@ -67,6 +78,17 @@
                     <td colspan="2">{{ commande.priceWithDiscount ~ '€' }}</td>
                 </tr>
             {% else %}
+                {% if commande.discountCode %}
+                    <tr>
+                        <td colspan="2"></td>
+                        <td colspan="2">Code promo</td>
+                        {% if commande.discountCode.isPercent %}
+                            <td colspan="2">{{ commande.discountCode.amount ~ '%' }}</td>
+                        {% else %}
+                            <td colspan="2">{{ commande.discountCode.amount ~ '€' }}</td>
+                        {% endif %}
+                    </tr>
+                {% endif %}
                 <tr>
                     <td colspan="2"></td>
                     <td colspan="2">Prix total</td>

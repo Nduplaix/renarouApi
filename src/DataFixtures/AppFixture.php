@@ -8,6 +8,7 @@ use App\Entity\Category;
 use App\Entity\Commande;
 use App\Entity\CommandeLine;
 use App\Entity\Comment;
+use App\Entity\DiscountCode;
 use App\Entity\Image;
 use App\Entity\Images;
 use App\Entity\Product;
@@ -176,34 +177,30 @@ class AppFixture extends Fixture
             $manager->persist($banner);
         }
 
-//
-//        $comment = new Comment();
-//        $comment
-//            ->setProduct($product)
-//            ->setContent('Très bien')
-//            ->setRating(10)
-//            ->setUser($user)
-//        ;
-//        $manager->persist($comment);
-//
-//        $commande = new Commande();
-//        $commande
-//            ->setUser($user)
-//            ->setAdress($adress)
-//            ->setCommandDate(new \DateTime())
-//            ->setCommandNumber(1)
-//        ;
-//        $manager->persist($commande);
-//
-//        $commandeLine = new CommandeLine();
-//        $commandeLine
-//            ->setNumber(2)
-//            ->setCommande($commande)
-//            ->setReference($reference)
-//            ->setProduct($reference->getProduct());
-//        ;
-//        $manager->persist($commandeLine);
-//
+        // DISCOUNT CODE
+
+        $code = new DiscountCode();
+        $code->setAmount("15.99")
+            ->setCode("EURO")
+            ->setExperationDate(new \DateTime("2030-01-01"))
+            ->setIsPercent(false);
+
+        $manager->persist($code);
+
+        $codePercent = new DiscountCode();
+        $codePercent->setAmount(25)
+            ->setCode("PERCENT")
+            ->setExperationDate(new \DateTime("2030-01-01"))
+            ->setIsPercent(true);
+        $manager->persist($codePercent);
+
+        $expiredCode = new DiscountCode();
+        $expiredCode->setAmount(25)
+            ->setCode("EXPIRED")
+            ->setExperationDate(new \DateTime("2000-01-01"))
+            ->setIsPercent(true);
+        $manager->persist($expiredCode);
+
         $manager->flush();
     }
 }

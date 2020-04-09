@@ -1,0 +1,11 @@
+App\Entity\DiscountCode:
+  collectionOperations:
+    get:
+      security: 'is_granted("ROLE_ADMIN")'
+      formats:
+        0: 'json'
+  itemOperations:
+    get:
+      security: 'is_granted("ROLE_USER")'
+      formats:
+        0: 'json'

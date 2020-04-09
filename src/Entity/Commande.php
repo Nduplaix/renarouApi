@@ -92,6 +92,11 @@ class Commande
      */
     private $address;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\DiscountCode", inversedBy="commandes")
+     */
+    private $discountCode;
+
     public function __construct()
     {
         $this->commandeLines = new ArrayCollection();
@@ -106,9 +111,10 @@ class Commande
         $this->setCreatedAt($today)
             ->setUpdatedAt($today);
 
-        $price = $this->getDelivery()->getShippingPrice();
+        $price = 0;
         $count = 0;
         $discount = 0;
+        $discountCode = 0;
 
         foreach ($this->getCommandeLines() as $line) {
             $price += $line->getPrice();
@@ -117,10 +123,21 @@ class Commande
             $discount += number_format($lineProduct->getDiscount() * $lineProduct->getPrice() / 100 , 2);
         }
 
-        $this->setPrice($price)
+
+        if (null !== $this->getDiscountCode()) {
+            $code = $this->getDiscountCode();
+            if ($code->getIsPercent()) {
+                $discountWithCode = number_format(($price - $discount) * $code->getAmount() / 100, 2);
+                $discountCode = $discountWithCode;
+            } else {
+                $discountCode = $code->getAmount();
+            }
+        }
+
+        $this->setPrice($price + $this->getDelivery()->getShippingPrice())
             ->setProductCount($count)
             ->setTotalDiscount($discount)
-            ->setPriceWithDiscount($this->getPrice() - $this->totalDiscount);
+            ->setPriceWithDiscount($this->getPrice() - $this->getTotalDiscount() - $discountCode);
     }
 
     /**
@@ -282,6 +299,18 @@ class Commande
     public function setAddress(?Address $address): self
     {
         $this->address = $address;
+
+        return $this;
+    }
+
+    public function getDiscountCode(): ?DiscountCode
+    {
+        return $this->discountCode;
+    }
+
+    public function setDiscountCode(?DiscountCode $discountCode): self
+    {
+        $this->discountCode = $discountCode;
 
         return $this;
     }
