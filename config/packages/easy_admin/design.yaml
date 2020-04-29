@@ -30,3 +30,4 @@ easy_admin:
           { entity: 'Commande', label: 'Commandes' },
           { entity: 'Delivery', label: 'Mode de livraison' },
         ]
+      - { entity: 'DiscountCode', label: 'Codes promo' }

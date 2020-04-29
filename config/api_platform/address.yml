@@ -11,5 +11,4 @@ App\Entity\Address:
       security: 'is_granted("ROLE_USER") and object.getUser().getId() == user.getId()'
     patch:
       security: 'is_granted("ROLE_USER") and object.getUser().getId() == user.getId()'
-    delete:
-      security: 'is_granted("ROLE_ADMIN")'
+    delete: ~
