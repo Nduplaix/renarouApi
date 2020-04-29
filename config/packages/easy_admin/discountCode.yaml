@@ -1,0 +1,29 @@
+easy_admin:
+  entities:
+    DiscountCode:
+      class: App\Entity\DiscountCode
+      list:
+        title: 'Liste des codes promo'
+        actions: ['show']
+        fields:
+          - 'id'
+          - 'code'
+          - { property: 'amount', label: 'Montant' }
+          - { property: 'isPercent', label: 'En Pourcentage' }
+          - { property: 'experationDate', label: 'Expiration' }
+          - { property: 'user', label: 'Utilisateur' }
+          - { property: 'commandes', label: 'Nombre d utilisations' }
+      show:
+        fields:
+          - 'code'
+          - { property: 'amount', label: 'Montant' }
+          - { property: 'isPercent', label: 'En Pourcentage' }
+          - { property: 'experationDate', label: 'Expiration' }
+          - { property: 'user', label: 'Utilisateur' }
+      form:
+        fields:
+          - 'code'
+          - { property: 'amount', label: 'Montant' }
+          - { property: 'isPercent', label: 'En Pourcentage' }
+          - { property: 'experationDate', label: 'Expiration' }
+          - { property: 'user', label: 'Utilisateur' }

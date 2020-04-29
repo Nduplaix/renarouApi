@@ -289,7 +289,7 @@ class User implements UserInterface
         $name = $this->getEmail();
 
         if ($firstName && $lastName) {
-            $name = sprintf('%s %s', $firstName, $lastName);
+            $name = sprintf('%s - %s %s', $name, $firstName, $lastName);
         }
 
         return $name ?? '';
