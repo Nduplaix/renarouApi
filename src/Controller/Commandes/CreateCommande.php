@@ -38,6 +38,16 @@ class CreateCommande extends AbstractController
             );
         }
 
+        if ($data->getDelivery()->getId() === 1 && $data->getAddress() === null) {
+            return new JsonResponse(
+                [
+                    "code" => "401",
+                    "message" => "Veuillez renseigener une addresse de livraison."
+                ],
+                401
+            );
+        }
+
         $basket = $this->getUser()->getBasket();
 
         if ($basket instanceof Basket && sizeof($basket->getBasketLines()) !== 0) {
