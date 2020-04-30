@@ -87,7 +87,7 @@ class Commande
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Address", inversedBy="commandes")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      * @Groups({"getUser"})
      */
     private $address;
